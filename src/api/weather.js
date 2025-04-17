@@ -32,3 +32,11 @@ export const getWeatherForecast = async (latitude, longitude, timezone) => {
         return { err: error.message, weath: {} };
     }
 };
+
+const apiKey = "gjigfrawthkmtyaf1kgezwz8rauwhvse0du1qpzw";
+export const fetchNewsData = async () => {
+    const url = `https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Ftimesofindia.indiatimes.com%2Frssfeeds%2F2647163.cms&api_key=${apiKey}&order_by=pubDate&order_dir=desc&count=3`;
+    const data = await fetch(url);
+    const response = await data.json();
+    return response.items;
+};

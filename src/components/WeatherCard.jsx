@@ -48,7 +48,7 @@ const WeatherCard = () => {
                     <p className="text-white/70 text-sm">{`Last updated: ${time}`}</p>
                 </div>
             </div>
-            <div className="flex justify-center items-center w-1/3 sm:w-1/2 md:w-1/4">
+            <div className="flex justify-center items-center w-1/3 sm:w-1/2 md:w-1/3 lg:w-1/4">
                 <DotLottieReact
                     src={isDay == 1 ? iconDay : iconNight}
                     loop

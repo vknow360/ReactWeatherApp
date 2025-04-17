@@ -1,22 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { TiWeatherWindyCloudy } from "react-icons/ti";
 import { IoNewspaperOutline } from "react-icons/io5";
+import { fetchNewsData } from "../api/weather";
 
 const WeatherNews = () => {
-    const newsItems = [
-        {
-            title: "Heat wave expected to continue through the weekend",
-            date: "June 12, 2024",
-        },
-        {
-            title: "Air quality improving after recent rainfall",
-            date: "June 10, 2024",
-        },
-        {
-            title: "Local authorities issue water conservation advisory",
-            date: "June 8, 2024",
-        },
-    ];
+    const [newsItems, setNewsItems] = useState([]);
+
+    useEffect(() => {
+        const getData = async () => {
+            setNewsItems(await fetchNewsData());
+        };
+        getData();
+    }, []);
 
     return (
         <div className="bg-[#202b3b] rounded-2xl p-4 mt-3">
@@ -25,21 +20,34 @@ const WeatherNews = () => {
                 <p className="text-white text-sm font-semibold">WEATHER NEWS</p>
             </div>
             <div className="flex flex-col space-y-3">
-                {newsItems.map((item, index) => (
-                    <div
-                        key={index}
-                        className="border border-gray-700 rounded-lg p-3 hover:bg-gray-700/30 transition-colors cursor-pointer"
-                    >
-                        <p className="text-white text-sm font-medium">
-                            {item.title}
-                        </p>
-                        <p className="text-gray-400 text-xs mt-1">
-                            {item.date}
-                        </p>
-                    </div>
-                ))}
+                {newsItems.map((item, index) => {
+                    const date = item.pubDate;
+                    return (
+                        <div
+                            key={index}
+                            className="border border-gray-700 rounded-lg p-3 hover:bg-gray-700/30 transition-colors cursor-pointer"
+                            onClick={() => {
+                                window.open(item.link);
+                            }}
+                        >
+                            <p className="text-white text-sm font-medium">
+                                {item.title}
+                            </p>
+                            <p className="text-gray-400 text-xs mt-1">
+                                {date.split(" ")[0]}
+                            </p>
+                        </div>
+                    );
+                })}
                 <div className="flex justify-center items-center pt-1">
-                    <button className="text-cyan-400 text-sm hover:text-cyan-300 flex items-center">
+                    <button
+                        className="text-cyan-400 text-sm hover:text-cyan-300 flex items-center"
+                        onClick={() => {
+                            window.open(
+                                "https://timesofindia.indiatimes.com/home/environment"
+                            );
+                        }}
+                    >
                         View all news
                         <svg
                             className="w-4 h-4 ml-1"

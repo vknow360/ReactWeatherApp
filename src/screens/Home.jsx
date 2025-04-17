@@ -12,7 +12,7 @@ const Home = () => {
     const [location, setLocation] = useState({
         lat: 0,
         lon: 0,
-        timeZone: "",
+        timeZone: "auto",
         name: "Gorakhpur, India",
     });
 
@@ -54,12 +54,7 @@ const Home = () => {
                 },
                 (err) => {
                     setError(`Geolocation error: ${err.message}`);
-                    setLocation({
-                        lat: 40.7128,
-                        lon: -74.006,
-                        timeZone: "auto",
-                        name: "Gorakhpur, India",
-                    });
+                    // Use default location
                 },
                 {
                     timeout: 5000,
@@ -67,13 +62,22 @@ const Home = () => {
                 }
             );
         }
-    }, [location]);
+    }, []);
 
     return (
         <div className="flex flex-col min-h-full w-full p-3 bg-[#162438]">
             <div className="flex flex-col sm:flex-row flex-grow">
                 <Sidebar />
-                <WeatherContext.Provider value={{ weather, error, location }}>
+                <WeatherContext.Provider
+                    value={{
+                        weather,
+                        error,
+                        location,
+                        setWeather,
+                        setError,
+                        setLocation,
+                    }}
+                >
                     <Main />
                 </WeatherContext.Provider>
             </div>
