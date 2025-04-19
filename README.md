@@ -2,7 +2,8 @@
 
 A modern, responsive weather application built with React and Vite that provides real-time weather forecasts, hourly predictions, and weather news.
 
-![Weather App Screenshot](https://via.placeholder.com/800x400?text=Weather+App+Screenshot)
+![image](https://github.com/user-attachments/assets/9b62e172-8b39-4e42-9f8d-b64f84d57506)
+
 
 ## Features
 
