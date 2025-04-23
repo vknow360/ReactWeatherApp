@@ -207,6 +207,7 @@ const Home = () => {
                 </div>
             )}
 
+          
             {showChatbot && (
                 <div 
                     className="fixed inset-0 bg-black bg-opacity-20 z-40"
