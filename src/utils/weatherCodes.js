@@ -1,5 +1,6 @@
 export const weatherCodeMap = {
-    0: { description: "Clear", icon: "/icons/clear.svg" },
+    0: { description: "Clear", iconDay: "https://assets-v2.lottiefiles.com/a/8c295244-116c-11ee-b2ad-875cced2a6c4/la2s01QeJ9.lottie", iconNight: "https://assets-v2.lottiefiles.com/a/fbc69c18-1808-11ee-927e-63bf50aff3d7/3GhtwkECl4.lottie" },
+
     1: {
         description: "Mostly Clear",
         iconDay:
