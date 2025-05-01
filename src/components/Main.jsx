@@ -5,6 +5,7 @@ import Today from "./TodayForecast";
 import Conditions from "./Conditions";
 import WeeklyForecast from "./WeeklyForecast";
 import WeatherNews from "./WeatherNews";
+import Footer from "./Footer";
 import { useContext } from "react";
 import WeatherContext from "../context/WeatherContext";
 import { getWeatherForecast } from "../api/weather";
@@ -34,19 +35,25 @@ const Main = () => {
     };
 
     return (
-        <div className="w-full flex flex-col lg:flex-row gap-3 h-full">
-            <div className="flex flex-col w-full lg:w-3/5 gap-3">
-                <SearchBar onLocationSelect={handleLocationSelect} />
-                <div className="flex flex-col flex-grow gap-3">
-                    <WeatherCard />
-                    <Today />
-                    <Conditions />
+        <div className="w-full flex flex-col h-full overflow-y-auto">
+            {/* Main content */}
+            <div className="flex flex-col lg:flex-row gap-3 flex-grow">
+                <div className="flex flex-col w-full lg:w-3/5 gap-3">
+                    <SearchBar onLocationSelect={handleLocationSelect} />
+                    <div className="flex flex-col flex-grow gap-3">
+                        <WeatherCard />
+                        <Today />
+                        <Conditions />
+                    </div>
+                </div>
+                <div className="flex flex-col w-full lg:w-[38%]">
+                    <WeeklyForecast />
+                    <WeatherNews />
                 </div>
             </div>
-            <div className="flex flex-col w-full lg:w-[38%]">
-                <WeeklyForecast />
-                <WeatherNews />
-            </div>
+
+            {/* Footer at the bottom */}
+            <Footer />
         </div>
     );
 };

@@ -7,7 +7,7 @@ import { RiEqualizerFill } from "react-icons/ri";
 
 const Sidebar = () => {
     return (
-        <div className="bg-[#202b3b] rounded-2xl mb-3 sm:mb-0 sm:mr-3 sm:w-16 flex flex-row sm:flex-col items-center justify-between sm:justify-start py-3 px-4 sm:py-5 sm:px-0">
+        <div className="bg-[#202b3b] rounded-2xl h-full flex flex-row sm:w-16 sm:flex-col items-center justify-between sm:justify-start py-3 px-4 sm:py-5 sm:px-0">
             <div className="sm:mb-6">
                 <PiUmbrella size={30} color="cyan" />
             </div>
