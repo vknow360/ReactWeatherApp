@@ -114,14 +114,8 @@ const Home = () => {
     };
 
     return (
-        <div className="flex min-h-full w-full bg-[#162438] relative">
-            {/* Fixed sidebar */}
-            <div className="fixed left-3 top-3 bottom-3 z-10">
-                <Sidebar />
-            </div>
-
-            {/* Main content with margin to account for fixed sidebar */}
-            <div className="flex flex-grow ml-0 sm:ml-20 p-3">
+        <div className="flex flex-col min-h-full w-full p-3 bg-[#162438] relative">
+            <div className="flex flex-col sm:flex-row flex-grow">
                 <WeatherContext.Provider
                     value={{
                         weather,

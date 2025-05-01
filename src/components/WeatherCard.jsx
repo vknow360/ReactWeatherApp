@@ -34,7 +34,7 @@ const WeatherCard = () => {
             <div className="flex flex-col justify-between w-2/3">
                 <div className="bg-gray-600/50 rounded-lg py-2 px-3 inline-flex items-center">
                     <FaLocationDot color="white" size={16} />
-                    <p className="text-lg sm:text-2xl text-white ml-2 truncate">
+                    <p className="text-sm sm:text-2xl text-white ml-2 truncate">
                         {location.name}
                     </p>
                 </div>
