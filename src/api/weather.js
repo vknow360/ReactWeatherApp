@@ -34,28 +34,17 @@ export const getWeatherForecast = async (latitude, longitude, timezone) => {
 };
 
 const apiKey = "gjigfrawthkmtyaf1kgezwz8rauwhvse0du1qpzw";
-export const fetchNewsData = async (count = 10) => {
+export const fetchNews = async (count = 3) => {
     try {
-        // We'll fetch from multiple sources to get a comprehensive weather news feed
         const sources = [
-            // Environmental news
             `https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Ftimesofindia.indiatimes.com%2Frssfeeds%2F2647163.cms&api_key=${apiKey}&order_by=pubDate&order_dir=desc&count=${count}`,
-
-            // Weather-specific news (fallback with fewer items if main request fails)
         ];
 
-        // Make all requests in parallel
-        const responses = await Promise.all(
-            sources.map(
-                (url) =>
-                    fetch(url)
-                        .then((res) => res.json())
-                        .then((data) => data.items || [])
-                        .catch(() => []) // Return empty array if fetch fails
-            )
-        );
+        const responses = await fetch(sources[0])
+            .then((res) => res.json())
+            .then((data) => data.items || [])
+            .catch(() => []);
 
-        // Combine all responses and sort by publication date
         const allItems = responses.flat();
         const sortedItems = allItems.sort(
             (a, b) => new Date(b.pubDate) - new Date(a.pubDate)
@@ -65,5 +54,61 @@ export const fetchNewsData = async (count = 10) => {
     } catch (error) {
         console.error("Error fetching news data:", error);
         return []; // Return empty array in case of error
+    }
+};
+
+const RSS_FEEDS = [
+    {
+        url: "https://timesofindia.indiatimes.com/rssfeeds/2647163.cms",
+        source: "Times of India",
+        category: "Weather",
+    },
+    {
+        url: "https://indianexpress.com/section/climate-change/feed/",
+        source: "Indian Express",
+        category: "Climate",
+    },
+    {
+        url: "https://indianexpress.com/section/weather/feed/",
+        source: "Indian Express",
+        category: "Weather",
+    },
+];
+
+export const fetchNewsData = async () => {
+    try {
+        const feedPromises = RSS_FEEDS.map(async (feed) => {
+            try {
+                const url = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(
+                    feed.url
+                )}&api_key=${apiKey}&order_by=pubDate&order_dir=desc`;
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (!data.items) {
+                    throw new Error(`No items returned for ${feed.source}`);
+                }
+
+                return data.items.map((item) => ({
+                    ...item,
+                    source: feed.source,
+                    categories: [feed.category, ...(item.categories || [])],
+                }));
+            } catch (error) {
+                console.error(`Error fetching ${feed.source} feed:`, error);
+                return [];
+            }
+        });
+
+        const results = await Promise.all(feedPromises);
+
+        const allItems = results
+            .flat()
+            .sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+
+        return { items: allItems };
+    } catch (error) {
+        console.error("Error fetching news:", error);
+        throw error;
     }
 };

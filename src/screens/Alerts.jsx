@@ -75,7 +75,7 @@ const Alerts = () => {
             : ["all"];
 
     return (
-        <div className="w-full h-full bg-[#162438] text-white overflow-hidden flex flex-col pt-0">
+        <div className="w-full h-full bg-[#162438] text-white overflow-hidden flex flex-col pt-20">
             <AlertHeader onToggleFilter={handleToggleFilter} />
 
             {filterOpen && (

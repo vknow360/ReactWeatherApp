@@ -4,10 +4,10 @@ import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import Home from "./screens/Home";
 import Alerts from "./screens/Alerts";
 import About from "./screens/About";
-import News from "./screens/News";
 import Login from "./screens/Login";
 import SignUp from "./screens/SignUp";
 import Profile from "./screens/Profile";
+import News from "./screens/News";
 import ForgotPassword from "./screens/ForgotPassword";
 import PrivateRoute from "./components/auth/PrivateRoute";
 import Sidebar from "./components/Sidebar";
@@ -16,6 +16,7 @@ import { AuthProvider } from "./context/AuthContext";
 import { SettingsProvider } from "./context/SettingsContext";
 import { applyDefaultTheme } from "./utils/themeUtils";
 import { data } from "./screens/sampleData";
+import Favorites from "./screens/Favorites";
 
 function App() {
     const [weather, setWeather] = useState(data);
@@ -40,10 +41,11 @@ function App() {
     };
     const getCurrentScreen = () => {
         if (currentLocation.pathname === "/alerts") return "alerts";
-        if (currentLocation.pathname === "/news") return "news";
         if (currentLocation.pathname === "/about") return "about";
         if (currentLocation.pathname === "/profile") return "profile";
         if (currentLocation.pathname.startsWith("/profile")) return "profile";
+        if (currentLocation.pathname === "/favorites") return "favorites";
+        if (currentLocation.pathname === "/news") return "news";
         return "home";
     };
     return (
@@ -77,10 +79,15 @@ function App() {
                             }}
                         >
                             <Routes>
+                                {" "}
                                 <Route path="/" element={<Home />} />
                                 <Route path="/alerts" element={<Alerts />} />
-                                <Route path="/news" element={<News />} />
                                 <Route path="/about" element={<About />} />
+                                <Route path="/news" element={<News />} />
+                                <Route
+                                    path="/favorites"
+                                    element={<Favorites />}
+                                />
                                 <Route path="/login" element={<Login />} />
                                 <Route path="/signup" element={<SignUp />} />
                                 <Route

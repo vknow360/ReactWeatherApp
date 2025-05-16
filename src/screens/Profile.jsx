@@ -130,8 +130,8 @@ const Profile = () => {
     };
 
     return (
-        <div className="w-full min-h-full flex flex-col">
-            <div className="bg-[#202b3b] shadow-lg rounded-lg p-6 max-w-4xl mx-auto w-full">
+        <div className="w-full h-full flex flex-col pt-20 sm:p-2">
+            <div className="bg-[#202b3b] shadow-lg rounded-lg p-6 mx-auto w-full">
                 <div className="flex flex-col sm:flex-row justify-between items-center mb-8">
                     <div className="flex items-center mb-4 sm:mb-0">
                         <div className="relative">

@@ -1,3 +1,95 @@
+// Import React icons for static icons
+import {
+    WiDaySunny,
+    WiNightClear,
+    WiDayCloudy,
+    WiNightAltCloudy,
+    WiCloud,
+    WiCloudy,
+    WiFog,
+    WiDayRain,
+    WiNightRain,
+    WiRain,
+    WiDaySnow,
+    WiNightSnow,
+    WiSnow,
+    WiDayThunderstorm,
+    WiNightThunderstorm,
+    WiThunderstorm,
+} from "react-icons/wi";
+
+// Function to get static weather icons for simple displays
+export const getWeatherIcon = (code, isDay = true) => {
+    // Map WMO weather codes to React Weather Icons components
+    switch (code) {
+        case 0: // Clear sky
+            return isDay
+                ? { icon: WiDaySunny, size: 24 }
+                : { icon: WiNightClear, size: 24 };
+        case 1: // Mainly clear
+            return isDay
+                ? { icon: WiDaySunny, size: 24 }
+                : { icon: WiNightClear, size: 24 };
+        case 2: // Partly cloudy
+            return isDay
+                ? { icon: WiDayCloudy, size: 24 }
+                : { icon: WiNightAltCloudy, size: 24 };
+        case 3: // Overcast
+            return { icon: WiCloudy, size: 24 };
+        case 45: // Fog
+        case 48: // Depositing rime fog
+            return { icon: WiFog, size: 24 };
+        case 51: // Drizzle: Light
+        case 53: // Drizzle: Moderate
+        case 55: // Drizzle: Dense
+            return isDay
+                ? { icon: WiDayRain, size: 24 }
+                : { icon: WiNightRain, size: 24 };
+        case 56: // Freezing Drizzle: Light
+        case 57: // Freezing Drizzle: Dense
+            return { icon: WiRain, size: 24 };
+        case 61: // Rain: Slight
+        case 63: // Rain: Moderate
+        case 65: // Rain: Heavy
+            return isDay
+                ? { icon: WiDayRain, size: 24 }
+                : { icon: WiNightRain, size: 24 };
+        case 66: // Freezing Rain: Light
+        case 67: // Freezing Rain: Heavy
+            return { icon: WiRain, size: 24 };
+        case 71: // Snow fall: Slight
+        case 73: // Snow fall: Moderate
+        case 75: // Snow fall: Heavy
+            return isDay
+                ? { icon: WiDaySnow, size: 24 }
+                : { icon: WiNightSnow, size: 24 };
+        case 77: // Snow grains
+            return { icon: WiSnow, size: 24 };
+        case 80: // Rain showers: Slight
+        case 81: // Rain showers: Moderate
+        case 82: // Rain showers: Violent
+            return isDay
+                ? { icon: WiDayRain, size: 24 }
+                : { icon: WiNightRain, size: 24 };
+        case 85: // Snow showers slight
+        case 86: // Snow showers heavy
+            return isDay
+                ? { icon: WiDaySnow, size: 24 }
+                : { icon: WiNightSnow, size: 24 };
+        case 95: // Thunderstorm: Slight or moderate
+            return isDay
+                ? { icon: WiDayThunderstorm, size: 24 }
+                : { icon: WiNightThunderstorm, size: 24 };
+        case 96: // Thunderstorm with slight hail
+        case 99: // Thunderstorm with heavy hail
+            return { icon: WiThunderstorm, size: 24 };
+        default:
+            return isDay
+                ? { icon: WiDaySunny, size: 24 }
+                : { icon: WiNightClear, size: 24 };
+    }
+};
+
 export const getWeatherCodeDetails = (code) => {
     const codes = {
         0: {

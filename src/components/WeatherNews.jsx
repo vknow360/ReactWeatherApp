@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { IoNewspaperOutline } from "react-icons/io5";
-import { fetchNewsData } from "../api/weather";
+import { fetchNews } from "../api/weather";
 import { useNavigate } from "react-router-dom";
 
 const WeatherNews = () => {
@@ -9,8 +9,8 @@ const WeatherNews = () => {
     useEffect(() => {
         const getData = async () => {
             try {
-                // Fetch only 3 items for the widget
-                const data = await fetchNewsData(3);
+                const data = await fetchNews(3);
+                console.log("Fetched news data:", data);
                 setNewsItems(data);
             } catch (error) {
                 console.error("Failed to fetch news for widget", error);
@@ -18,12 +18,9 @@ const WeatherNews = () => {
         };
         getData();
 
-        // Set up auto-refresh interval
-        // Using a fake timer here since this component doesn't directly access settings
-        // This will be triggered by the Main component's refresh interval
         const refreshInterval = setInterval(() => {
             getData();
-        }, 30 * 60 * 1000); // Default to 30 minutes
+        }, 30 * 60 * 1000);
 
         return () => {
             clearInterval(refreshInterval);
@@ -40,23 +37,43 @@ const WeatherNews = () => {
                 <p className="text-[var(--color-text-primary)] text-sm font-semibold">
                     WEATHER NEWS
                 </p>
-            </div>
+            </div>{" "}
             <div className="flex flex-col space-y-3">
                 {newsItems.map((item, index) => {
-                    const date = item.pubDate;
+                    const date = new Date(item.pubDate).toLocaleDateString();
                     return (
                         <div
                             key={index}
-                            className="border border-[var(--color-border)] rounded-lg p-3 hover:bg-[var(--color-bg-hover)] transition-colors cursor-pointer"
+                            className="border border-[var(--color-border)] rounded-lg p-3 hover:bg-[var(--color-bg-hover)] transition-colors cursor-pointer group"
                             onClick={() => {
                                 window.open(item.link);
                             }}
                         >
-                            <p className="text-[var(--color-text-primary)] text-sm font-medium">
-                                {item.title}
-                            </p>
-                            <p className="text-[var(--color-text-tertiary)] text-xs mt-1">
-                                {date.split(" ")[0]}
+                            <div className="flex justify-between items-start gap-3">
+                                <div className="flex-1">
+                                    <p className="text-[var(--color-text-primary)] text-sm font-medium group-hover:text-[var(--color-accent)] transition-colors">
+                                        {item.title}
+                                    </p>
+                                    <p className="text-[var(--color-text-tertiary)] text-xs mt-2 line-clamp-2">
+                                        {item.description}
+                                    </p>
+                                </div>
+                                {item.thumbnail && (
+                                    <div className="w-16 h-16 flex-shrink-0">
+                                        <img
+                                            src={item.thumbnail}
+                                            alt=""
+                                            className="w-full h-full object-cover rounded-lg"
+                                            onError={(e) => {
+                                                e.target.style.display = "none";
+                                            }}
+                                        />
+                                    </div>
+                                )}
+                            </div>
+                            <p className="text-[var(--color-text-tertiary)] text-xs mt-2 flex items-center">
+                                <IoNewspaperOutline className="mr-1" />
+                                {date}
                             </p>
                         </div>
                     );

@@ -2,7 +2,12 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { PiUmbrella } from "react-icons/pi";
 import { TiWeatherPartlySunny } from "react-icons/ti";
-import { FaExclamationTriangle, FaInfoCircle, FaUser } from "react-icons/fa";
+import {
+    FaExclamationTriangle,
+    FaInfoCircle,
+    FaUser,
+    FaStar,
+} from "react-icons/fa";
 import { IoNewspaperOutline } from "react-icons/io5";
 import { RiMapFill } from "react-icons/ri";
 import { RiEqualizerFill } from "react-icons/ri";
@@ -58,8 +63,8 @@ const Sidebar = ({ currentScreen }) => {
                     />
                     <p className="text-white text-[10px] sm:text-xs hidden sm:block">
                         Alerts
-                    </p>
-                </button>{" "}
+                    </p>{" "}
+                </button>
                 <button
                     className={`flex flex-col h-full sm:h-auto sm:w-full items-center cursor-pointer transition-all duration-300 p-2 rounded-lg ${
                         currentScreen === "news"
@@ -72,6 +77,20 @@ const Sidebar = ({ currentScreen }) => {
                     <IoNewspaperOutline size={22} className="text-white mb-1" />
                     <p className="text-white text-[10px] sm:text-xs hidden sm:block">
                         News
+                    </p>
+                </button>{" "}
+                <button
+                    className={`flex flex-col h-full sm:h-auto sm:w-full items-center cursor-pointer transition-all duration-300 p-2 rounded-lg ${
+                        currentScreen === "favorites"
+                            ? "bg-[#354051]"
+                            : "hover:bg-[#2a3546]"
+                    }`}
+                    onClick={() => handleNavigation("favorites")}
+                    aria-label="Favorites"
+                >
+                    <FaStar size={20} className="text-white mb-1" />
+                    <p className="text-white text-[10px] sm:text-xs hidden sm:block">
+                        Favorites
                     </p>
                 </button>
                 <button

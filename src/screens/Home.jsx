@@ -114,7 +114,7 @@ const Home = () => {
     };
 
     return (
-        <div className="flex flex-col min-h-full w-full p-3 bg-[#162438] relative">
+        <div className="flex flex-col min-h-full w-full p-3 bg-[#162438] relative pt-20 sm:pt-0 sm:p-2">
             <div className="flex flex-col sm:flex-row flex-grow">
                 <WeatherContext.Provider
                     value={{
