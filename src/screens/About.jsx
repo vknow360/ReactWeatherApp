@@ -14,7 +14,6 @@ const About = () => {
             <FeaturesSection />
             <TechnologyStackSection />
             <TeamSection />
-            <PrivacySection />
             <Footer></Footer>
         </div>
     );

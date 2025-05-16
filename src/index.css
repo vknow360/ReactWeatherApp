@@ -1,3 +1,20 @@
+/* Dark theme color variables */
+:root {
+    --color-bg-primary: #162438;
+    --color-bg-secondary: #202b3b;
+    --color-bg-tertiary: #263142;
+    --color-border: #243447;
+    --color-text-primary: #ffffff;
+    --color-text-secondary: #e2e8f0;
+    --color-text-tertiary: #94a3b8;
+    --color-accent: #22d3ee;
+    --color-accent-light: #164e63;
+    --color-card-shadow: 0 4px 6px rgba(0, 0, 0, 0.25);
+    --color-input-bg: #1a2535;
+    --color-bg-hover: #2a3546;
+    --color-accent-hover: #06b6d4;
+}
+
 html,
 body,
 #root {
@@ -5,7 +22,13 @@ body,
     margin: 0;
     padding: 0;
     width: 100%;
-    background-color: #162438;
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
+}
+
+/* Common card styling */
+.bg-[var(--color-bg-secondary)] {
+    box-shadow: var(--color-card-shadow);
 }
 
 @media (max-width: 640px) {

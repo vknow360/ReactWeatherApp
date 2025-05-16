@@ -1,23 +1,45 @@
 import React, { useEffect, useState } from "react";
-import { TiWeatherWindyCloudy } from "react-icons/ti";
 import { IoNewspaperOutline } from "react-icons/io5";
 import { fetchNewsData } from "../api/weather";
+import { useNavigate } from "react-router-dom";
 
 const WeatherNews = () => {
     const [newsItems, setNewsItems] = useState([]);
-
+    const navigate = useNavigate();
     useEffect(() => {
         const getData = async () => {
-            setNewsItems(await fetchNewsData());
+            try {
+                // Fetch only 3 items for the widget
+                const data = await fetchNewsData(3);
+                setNewsItems(data);
+            } catch (error) {
+                console.error("Failed to fetch news for widget", error);
+            }
         };
         getData();
+
+        // Set up auto-refresh interval
+        // Using a fake timer here since this component doesn't directly access settings
+        // This will be triggered by the Main component's refresh interval
+        const refreshInterval = setInterval(() => {
+            getData();
+        }, 30 * 60 * 1000); // Default to 30 minutes
+
+        return () => {
+            clearInterval(refreshInterval);
+        };
     }, []);
 
     return (
-        <div className="bg-[#202b3b] rounded-2xl p-4 mt-3">
+        <div className="bg-[var(--color-bg-secondary)] rounded-2xl p-4 mt-3">
             <div className="flex items-center mb-3">
-                <IoNewspaperOutline size={20} className="text-white mr-2" />
-                <p className="text-white text-sm font-semibold">WEATHER NEWS</p>
+                <IoNewspaperOutline
+                    size={20}
+                    className="text-[var(--color-text-primary)] mr-2"
+                />
+                <p className="text-[var(--color-text-primary)] text-sm font-semibold">
+                    WEATHER NEWS
+                </p>
             </div>
             <div className="flex flex-col space-y-3">
                 {newsItems.map((item, index) => {
@@ -25,15 +47,15 @@ const WeatherNews = () => {
                     return (
                         <div
                             key={index}
-                            className="border border-gray-700 rounded-lg p-3 hover:bg-gray-700/30 transition-colors cursor-pointer"
+                            className="border border-[var(--color-border)] rounded-lg p-3 hover:bg-[var(--color-bg-hover)] transition-colors cursor-pointer"
                             onClick={() => {
                                 window.open(item.link);
                             }}
                         >
-                            <p className="text-white text-sm font-medium">
+                            <p className="text-[var(--color-text-primary)] text-sm font-medium">
                                 {item.title}
                             </p>
-                            <p className="text-gray-400 text-xs mt-1">
+                            <p className="text-[var(--color-text-tertiary)] text-xs mt-1">
                                 {date.split(" ")[0]}
                             </p>
                         </div>
@@ -41,11 +63,9 @@ const WeatherNews = () => {
                 })}
                 <div className="flex justify-center items-center pt-1">
                     <button
-                        className="text-cyan-400 text-sm hover:text-cyan-300 flex items-center"
+                        className="text-[var(--color-accent)] text-sm hover:text-[var(--color-accent-hover)] flex items-center"
                         onClick={() => {
-                            window.open(
-                                "https://timesofindia.indiatimes.com/home/environment"
-                            );
+                            navigate("/news");
                         }}
                     >
                         View all news

@@ -8,19 +8,22 @@ import WeatherNews from "./WeatherNews";
 import Footer from "./Footer";
 import { useContext } from "react";
 import WeatherContext from "../context/WeatherContext";
+import { useSettings } from "../context/SettingsContext";
 import { getWeatherForecast } from "../api/weather";
 
 const Main = () => {
-    const { setLocation, setWeather, setError } = useContext(WeatherContext);
+    const { location, setLocation, weather, setWeather, setError } =
+        useContext(WeatherContext);
+    const { settings } = useSettings();
+    const [refreshTimer, setRefreshTimer] = React.useState(null);
 
-    const handleLocationSelect = async (selectedLocation) => {
-        setLocation(selectedLocation);
-
+    // Function to fetch weather data
+    const fetchWeatherData = async (loc = location) => {
         try {
             const { weath, err } = await getWeatherForecast(
-                selectedLocation.lat,
-                selectedLocation.lon,
-                selectedLocation.timeZone
+                loc.lat,
+                loc.lon,
+                loc.timeZone
             );
 
             if (err === "") {
@@ -34,6 +37,47 @@ const Main = () => {
         }
     };
 
+    const handleLocationSelect = async (selectedLocation) => {
+        setLocation(selectedLocation);
+        await fetchWeatherData(selectedLocation);
+    };
+
+    // Setup auto-refresh based on settings
+    React.useEffect(() => {
+        // Clear any existing timer
+        if (refreshTimer) {
+            clearInterval(refreshTimer);
+            setRefreshTimer(null);
+        }
+
+        // If refresh interval is set and not zero
+        if (settings.refreshInterval > 0) {
+            // Convert minutes to milliseconds
+            const intervalMs = settings.refreshInterval * 60 * 1000;
+
+            // Set new timer
+            const timer = setInterval(() => {
+                fetchWeatherData();
+            }, intervalMs);
+
+            setRefreshTimer(timer);
+        }
+
+        // Cleanup on component unmount
+        return () => {
+            if (refreshTimer) {
+                clearInterval(refreshTimer);
+            }
+        };
+    }, [settings.refreshInterval, location]); // Safely access display settings
+    const displaySettings = settings?.display || {
+        hourlyForecast: true,
+        weeklyForecast: true,
+        weatherNews: true,
+        weatherAlerts: true,
+        weatherMap: false,
+    };
+
     return (
         <div className="w-full flex flex-col h-full overflow-y-auto">
             {/* Main content */}
@@ -42,13 +86,13 @@ const Main = () => {
                     <SearchBar onLocationSelect={handleLocationSelect} />
                     <div className="flex flex-col flex-grow gap-3">
                         <WeatherCard />
-                        <Today />
+                        {displaySettings.hourlyForecast && <Today />}
                         <Conditions />
                     </div>
                 </div>
                 <div className="flex flex-col w-full lg:w-[38%]">
-                    <WeeklyForecast />
-                    <WeatherNews />
+                    {displaySettings.weeklyForecast && <WeeklyForecast />}
+                    {displaySettings.weatherNews && <WeatherNews />}
                 </div>
             </div>
 

@@ -2,13 +2,15 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { PiUmbrella } from "react-icons/pi";
 import { TiWeatherPartlySunny } from "react-icons/ti";
-import { FaExclamationTriangle } from "react-icons/fa";
-import { FaInfoCircle } from "react-icons/fa";
+import { FaExclamationTriangle, FaInfoCircle, FaUser } from "react-icons/fa";
+import { IoNewspaperOutline } from "react-icons/io5";
 import { RiMapFill } from "react-icons/ri";
 import { RiEqualizerFill } from "react-icons/ri";
+import { useAuth } from "../context/AuthContext";
 
 const Sidebar = ({ currentScreen }) => {
     const navigate = useNavigate();
+    const { currentUser } = useAuth();
 
     const handleNavigation = (screen) => {
         if (screen === "home") {
@@ -57,6 +59,25 @@ const Sidebar = ({ currentScreen }) => {
                     <p className="text-white text-[10px] sm:text-xs hidden sm:block">
                         Alerts
                     </p>
+                </button>{" "}
+                <button
+                    className={`flex flex-col h-full sm:h-auto sm:w-full items-center cursor-pointer transition-all duration-300 p-2 rounded-lg ${
+                        currentScreen === "profile"
+                            ? "bg-[#354051]"
+                            : "hover:bg-[#2a3546]"
+                    }`}
+                    onClick={() => handleNavigation("profile")}
+                    aria-label="Profile"
+                >
+                    <div className="relative">
+                        <FaUser size={20} className="text-white mb-1" />
+                        {currentUser && (
+                            <div className="absolute -top-1 -right-1 w-2 h-2 bg-green-500 rounded-full"></div>
+                        )}
+                    </div>
+                    <p className="text-white text-[10px] sm:text-xs hidden sm:block">
+                        Profile
+                    </p>
                 </button>
                 <button
                     className={`flex flex-col h-full sm:h-auto sm:w-full items-center cursor-pointer transition-all duration-300 p-2 rounded-lg ${
@@ -70,6 +91,20 @@ const Sidebar = ({ currentScreen }) => {
                     <FaInfoCircle size={22} className="text-white mb-1" />
                     <p className="text-white text-[10px] sm:text-xs hidden sm:block">
                         About
+                    </p>
+                </button>
+                <button
+                    className={`flex flex-col h-full sm:h-auto sm:w-full items-center cursor-pointer transition-all duration-300 p-2 rounded-lg ${
+                        currentScreen === "news"
+                            ? "bg-[#354051]"
+                            : "hover:bg-[#2a3546]"
+                    }`}
+                    onClick={() => handleNavigation("news")}
+                    aria-label="News"
+                >
+                    <IoNewspaperOutline size={22} className="text-white mb-1" />
+                    <p className="text-white text-[10px] sm:text-xs hidden sm:block">
+                        News
                     </p>
                 </button>
                 {/* <div className="flex flex-col items-center">

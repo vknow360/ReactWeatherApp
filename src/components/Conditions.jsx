@@ -13,39 +13,33 @@ import { MdOutlineVisibility } from "react-icons/md";
 import { MdOutlineWaterDrop } from "react-icons/md";
 import { useContext } from "react";
 import WeatherContext from "../context/WeatherContext";
+import { useSettings } from "../context/SettingsContext";
 
 const Conditions = () => {
     const { weather } = useContext(WeatherContext);
-    const current = weather.current;
-    function formatTime(isoString) {
-        const date = new Date(isoString);
-
-        let hours = date.getHours();
-        const minutes = String(date.getMinutes()).padStart(2, "0");
-        const ampm = hours >= 12 ? "PM" : "AM";
-
-        hours = hours % 12 || 12;
-        hours = String(hours).padStart(2, "0");
-
-        return `${hours}:${minutes} ${ampm}`;
-    }
-
+    const {
+        formatTemperature,
+        formatWindSpeed,
+        formatPressure,
+        formatVisibility,
+        formatTime,
+    } = useSettings();
+    const current = weather.current; // Using the formatTime from SettingsContext instead of local implementation
     const conditionItems = [
         {
             icon: <CiTempHigh size={22} />,
             label: "Real Feel",
-            value: current.apparent_temperature,
+            value: formatTemperature(current.apparent_temperature),
         },
         {
             icon: <FaWind size={22} />,
             label: "Wind",
-            value: current.wind_speed_10m + " km/h",
+            value: formatWindSpeed(current.wind_speed_10m),
         },
         {
             icon: <MdOutlineVisibility size={22} />,
             label: "Visibility",
-            value:
-                (weather.daily.visibility_mean[0] / 10000).toFixed(0) + " km",
+            value: formatVisibility(weather.daily.visibility_mean[0] / 10000),
         },
         {
             icon: <MdOutlineWaterDrop size={22} />,
@@ -65,7 +59,7 @@ const Conditions = () => {
         {
             icon: <WiBarometer size={22} />,
             label: "Pressure",
-            value: current.surface_pressure + " hPa",
+            value: formatPressure(current.surface_pressure),
         },
         {
             icon: <WiCloudy size={22} />,
@@ -75,9 +69,13 @@ const Conditions = () => {
         {
             icon: <WiSunrise size={22} />,
             label: "Sunrise",
-            value: formatTime(weather.daily.sunrise[0]),
+            value: formatTime(weather.daily.sunrise[0], weather.timezone),
         },
-        { icon: <WiSunset size={22} />, label: "Sunset", value: "07:30 PM" },
+        {
+            icon: <WiSunset size={22} />,
+            label: "Sunset",
+            value: formatTime(weather.daily.sunset[0], weather.timezone),
+        },
     ];
 
     const getRows = (itemsPerRow) => {
@@ -89,8 +87,8 @@ const Conditions = () => {
     };
 
     return (
-        <div className="bg-[#202b3b] rounded-2xl p-4 flex-grow sm:flex-grow-0 flex flex-col">
-            <p className="text-white text-sm font-semibold mb-3">
+        <div className="bg-[var(--color-bg-secondary)] rounded-2xl p-4 flex-grow sm:flex-grow-0 flex flex-col">
+            <p className="text-[var(--color-text-primary)] text-sm font-semibold mb-3">
                 AIR CONDITIONS
             </p>
 

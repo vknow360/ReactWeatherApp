@@ -3,9 +3,11 @@ import { useContext } from "react";
 import WeatherContext from "../context/WeatherContext";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { getWeatherCodeDetails } from "../utils/weatherCodes";
+import { useSettings } from "../context/SettingsContext";
 
 const WeeklyForecast = () => {
     const { weather } = useContext(WeatherContext);
+    const { formatTemperature } = useSettings();
 
     const weekdays = [
         "Sunday",
@@ -38,8 +40,8 @@ const WeeklyForecast = () => {
     const tempMin = daily.temperature_2m_min;
 
     return (
-        <div className="bg-[#202b3b] rounded-2xl p-4 h-auto">
-            <p className="text-white text-sm font-semibold mb-3">
+        <div className="bg-[var(--color-bg-secondary)] rounded-2xl p-4 h-auto">
+            <p className="text-[var(--color-text-primary)] text-sm font-semibold mb-3">
                 7-DAY FORECAST
             </p>
             <div className="flex flex-col space-y-2">
@@ -62,9 +64,11 @@ const WeeklyForecast = () => {
                             </div>
                             <p className="text-white text-xs sm:text-sm font-medium w-1/4 text-center">
                                 {description}
-                            </p>
+                            </p>{" "}
                             <p className="text-white text-xs sm:text-sm font-medium w-1/4 text-right">
-                                {tempMax[index]}°C / {tempMin[index]}°C
+                                {formatTemperature(tempMax[index], false)}&deg;
+                                / {formatTemperature(tempMin[index], false)}
+                                &deg;
                             </p>
                         </div>
                     );

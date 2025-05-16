@@ -4,7 +4,6 @@ A modern, responsive weather application built with React and Vite that provides
 
 ![image](https://github.com/user-attachments/assets/648464d9-0d52-4887-9589-3d5e76f6f9f4)
 
-
 ## Features
 
 -   **Real-time Weather Data**: Get current weather conditions for any location worldwide
@@ -15,8 +14,26 @@ A modern, responsive weather application built with React and Vite that provides
 -   **Location Search**: Search for any city or location globally
 -   **Weather News**: Latest weather-related news updates
 -   **AI Weather Assistant**: Ask questions about weather conditions and receive intelligent responses
+-   **User Authentication**: Create an account, sign in, and manage your profile
+-   **Personalized Settings**: Customize your weather preferences (temperature units, wind speed units)
+-   **User Profiles**: Update your display name and profile picture
+-   **Notification Preferences**: Set preferences for weather alerts
 -   **Responsive Design**: Works seamlessly on desktop, tablet, and mobile devices
 -   **Dynamic Weather Animations**: Beautiful Lottie animations that represent current weather conditions
+
+## Authentication and User Settings
+
+To set up the authentication and user settings features:
+
+1. Create a Firebase project at [firebase.google.com](https://firebase.google.com)
+2. Enable Authentication in your Firebase project and set up Email/Password as a sign-in method
+3. Create a Firestore database for storing user data
+4. Update the Firebase configuration in `src/firebase/config.js` with your project's credentials
+5. **Important**: Update your Firestore security rules to allow authenticated users to access their data
+    - See [FIREBASE_SETUP.md](./FIREBASE_SETUP.md) for detailed instructions on configuring security rules
+6. For details about user settings implementation and usage, see [USER_SETTINGS_GUIDE.md](./USER_SETTINGS_GUIDE.md)
+
+> **Note**: If you see errors like "Missing or insufficient permissions" when using authentication features, you need to update your Firestore security rules as explained in the Firebase setup guide.
 
 ## Technologies Used
 

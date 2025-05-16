@@ -4,9 +4,11 @@ import WeatherContext from "../context/WeatherContext";
 import { useContext } from "react";
 import { getWeatherCodeDetails } from "../utils/weatherCodes";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import { useSettings } from "../context/SettingsContext";
 
 const WeatherCard = () => {
     const { weather, error, location } = useContext(WeatherContext);
+    const { formatTemperature } = useSettings();
 
     function formatTime(isoString) {
         let date = new Date(isoString);
@@ -30,17 +32,21 @@ const WeatherCard = () => {
     const { description, iconDay, iconNight } =
         getWeatherCodeDetails(weathercode);
     return (
-        <div className="bg-[#202b3b] rounded-2xl flex flex-row p-6 flex-grow h-full">
+        <div className="bg-[var(--color-bg-secondary)] rounded-2xl flex flex-row p-6 flex-grow h-full">
             <div className="flex flex-col justify-between w-2/3">
                 <div className="bg-gray-600/50 rounded-lg py-2 px-3 inline-flex items-center">
-                    <FaLocationDot color="white" size={16} />
-                    <p className="text-sm sm:text-2xl text-white ml-2 truncate">
+                    <FaLocationDot
+                        className="text-[var(--color-text-primary)]"
+                        size={16}
+                    />
+                    <p className="text-sm sm:text-2xl text-[var(--color-text-primary)] ml-2 truncate">
                         {location.name}
                     </p>
                 </div>
                 <div className="flex-grow flex flex-col justify-center">
+                    {" "}
                     <p className="text-3xl sm:text-4xl md:text-5xl font-bold text-white">
-                        {`${weather.current.temperature_2m}`}&deg;C
+                        {formatTemperature(weather.current.temperature_2m)}
                     </p>
                     <p className="text-white mt-1 text-lg">{description}</p>
                 </div>

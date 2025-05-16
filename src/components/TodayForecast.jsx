@@ -3,8 +3,11 @@ import { useContext } from "react";
 import WeatherContext from "../context/WeatherContext";
 import { getWeatherCodeDetails } from "../utils/weatherCodes";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import { useSettings } from "../context/SettingsContext";
 
 const Today = () => {
+    const { formatTemperature } = useSettings();
+
     function formatTime(isoString) {
         let date = new Date(isoString);
         if (date.getTimezoneOffset() != weather.utc_offset_seconds) {
@@ -29,8 +32,8 @@ const Today = () => {
     const hourlyIsDay = weather.hourly?.is_day;
 
     return (
-        <div className="bg-[#202b3b] rounded-2xl p-4 flex-grow sm:flex-grow-0">
-            <p className="text-white text-sm font-semibold mb-3">
+        <div className="bg-[var(--color-bg-secondary)] rounded-2xl p-4 flex-grow sm:flex-grow-0">
+            <p className="text-[var(--color-text-primary)] text-sm font-semibold mb-3">
                 TODAY'S FORECAST
             </p>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-8 gap-2 h-[calc(100%-2rem)] items-center">
@@ -45,7 +48,6 @@ const Today = () => {
                             <p className="text-white text-xs">{`${formatTime(
                                 hourlyTime[index]
                             )}`}</p>
-
                             <div className="w-8 h-8 my-1">
                                 <DotLottieReact
                                     src={
@@ -54,10 +56,9 @@ const Today = () => {
                                             : iconNight
                                     }
                                 />
-                            </div>
-
+                            </div>{" "}
                             <p className="text-lg text-white font-bold">
-                                {hourlyTemp[index]}&deg;C
+                                {formatTemperature(hourlyTemp[index])}
                             </p>
                         </div>
                     );
