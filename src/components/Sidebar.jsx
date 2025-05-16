@@ -62,6 +62,20 @@ const Sidebar = ({ currentScreen }) => {
                 </button>{" "}
                 <button
                     className={`flex flex-col h-full sm:h-auto sm:w-full items-center cursor-pointer transition-all duration-300 p-2 rounded-lg ${
+                        currentScreen === "news"
+                            ? "bg-[#354051]"
+                            : "hover:bg-[#2a3546]"
+                    }`}
+                    onClick={() => handleNavigation("news")}
+                    aria-label="News"
+                >
+                    <IoNewspaperOutline size={22} className="text-white mb-1" />
+                    <p className="text-white text-[10px] sm:text-xs hidden sm:block">
+                        News
+                    </p>
+                </button>
+                <button
+                    className={`flex flex-col h-full sm:h-auto sm:w-full items-center cursor-pointer transition-all duration-300 p-2 rounded-lg ${
                         currentScreen === "profile"
                             ? "bg-[#354051]"
                             : "hover:bg-[#2a3546]"
@@ -91,20 +105,6 @@ const Sidebar = ({ currentScreen }) => {
                     <FaInfoCircle size={22} className="text-white mb-1" />
                     <p className="text-white text-[10px] sm:text-xs hidden sm:block">
                         About
-                    </p>
-                </button>
-                <button
-                    className={`flex flex-col h-full sm:h-auto sm:w-full items-center cursor-pointer transition-all duration-300 p-2 rounded-lg ${
-                        currentScreen === "news"
-                            ? "bg-[#354051]"
-                            : "hover:bg-[#2a3546]"
-                    }`}
-                    onClick={() => handleNavigation("news")}
-                    aria-label="News"
-                >
-                    <IoNewspaperOutline size={22} className="text-white mb-1" />
-                    <p className="text-white text-[10px] sm:text-xs hidden sm:block">
-                        News
                     </p>
                 </button>
                 {/* <div className="flex flex-col items-center">

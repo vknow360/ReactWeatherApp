@@ -9,7 +9,6 @@ export const fetchNewsData = async (
         `https://www.sciencedaily.com/rss/earth_climate.xml`,
         `https://www.theguardian.com/environment/climate-crisis/rss`,
         `https://feeds.bbci.co.uk/news/science_and_environment/rss.xml`,
-        `https://www.reutersagency.com/en/reuters-best/environment/feed/`,
         `https://www.climatechangenews.com/feed/`,
         `https://www.ecowatch.com/rss`,
     ];
@@ -19,8 +18,6 @@ export const fetchNewsData = async (
             `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(
                 feed
             )}`,
-        (feed) =>
-            `https://feed2json.org/v1/convert?url=${encodeURIComponent(feed)}`,
     ];
     try {
         // Fetch all feeds from all endpoints in parallel
