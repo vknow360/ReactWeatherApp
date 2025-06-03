@@ -35,7 +35,7 @@ const Login = () => {
         <div className="flex flex-col items-center justify-center min-h-full w-full max-w-md mx-auto p-6">
             <div className="w-full bg-[#202b3b] shadow-lg rounded-lg p-8">
                 <h2 className="text-2xl font-bold text-cyan-400 text-center mb-6">
-                    Sign In to WeatherApp
+                    Sign In to WeatherCast
                 </h2>
 
                 {error && (
