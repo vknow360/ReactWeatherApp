@@ -32,94 +32,100 @@ const Login = () => {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-full w-full max-w-md mx-auto p-6">
-            <div className="w-full bg-[#202b3b] shadow-lg rounded-lg p-8">
-                <h2 className="text-2xl font-bold text-cyan-400 text-center mb-6">
-                    Sign In to WeatherCast
-                </h2>
-
-                {error && (
-                    <div className="bg-red-500/20 border border-red-500/50 text-red-300 px-4 py-3 rounded-lg mb-4 flex items-center">
-                        <FaExclamationTriangle className="mr-2" />
-                        <span>{error}</span>
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-50 flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+            <div className="w-full max-w-md">
+                <div className="bg-white/90 backdrop-blur-sm shadow-lg rounded-2xl border border-gray-200 p-8">
+                    <div className="text-center mb-8">
+                        <h2 className="text-3xl font-bold text-gray-900">
+                            Welcome Back
+                        </h2>
+                        <p className="mt-2 text-sm text-gray-600">
+                            Sign in to your WeatherCast account
+                        </p>
                     </div>
-                )}
 
-                <form onSubmit={handleSubmit} className="space-y-6">
-                    <div>
-                        <label
-                            htmlFor="email"
-                            className="block text-sm font-medium text-gray-300 mb-1"
-                        >
-                            Email Address
-                        </label>
-                        <div className="relative">
-                            <div className="absolute left-3 top-3 text-gray-400">
-                                <FaEnvelope />
-                            </div>
-                            <input
-                                type="email"
-                                id="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                className="block w-full pl-10 pr-3 py-2 border border-[#243447] rounded-lg bg-[#1a2535] text-gray-100 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                                placeholder="you@example.com"
-                            />
+                    {error && (
+                        <div className="mb-6 bg-red-50 border border-red-200 rounded-lg p-4 flex items-center text-red-700">
+                            <FaExclamationTriangle className="flex-shrink-0 mr-3" />
+                            <span>{error}</span>
                         </div>
-                    </div>
+                    )}
 
-                    <div>
-                        <label
-                            htmlFor="password"
-                            className="block text-sm font-medium text-gray-300 mb-1"
-                        >
-                            Password
-                        </label>
-                        <div className="relative">
-                            <div className="absolute left-3 top-3 text-gray-400">
-                                <FaLock />
-                            </div>
-                            <input
-                                type="password"
-                                id="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                className="block w-full pl-10 pr-3 py-2 border border-[#243447] rounded-lg bg-[#1a2535] text-gray-100 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                                placeholder="••••••••"
-                            />
-                        </div>
-                    </div>
-
-                    <div className="flex items-center justify-between">
-                        <div className="text-sm">
-                            <Link
-                                to="/forgot-password"
-                                className="text-cyan-400 hover:text-cyan-300"
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                        <div>
+                            <label
+                                htmlFor="email"
+                                className="block text-sm font-medium text-gray-700 mb-1"
                             >
-                                Forgot your password?
-                            </Link>
+                                Email Address
+                            </label>
+                            <div className="relative">
+                                <div className="absolute left-3 top-3 text-gray-400">
+                                    <FaEnvelope />
+                                </div>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                                    placeholder="you@example.com"
+                                />
+                            </div>
                         </div>
-                    </div>
 
-                    <button
-                        type="submit"
-                        disabled={loading}
-                        className="w-full py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 disabled:opacity-50"
-                    >
-                        {loading ? "Signing In..." : "Sign In"}
-                    </button>
-                </form>
+                        <div>
+                            <div className="flex items-center justify-between mb-1">
+                                <label
+                                    htmlFor="password"
+                                    className="block text-sm font-medium text-gray-700"
+                                >
+                                    Password
+                                </label>
+                                <Link
+                                    to="/forgot-password"
+                                    className="text-sm font-medium text-blue-600 hover:text-blue-500"
+                                >
+                                    Forgot password?
+                                </Link>
+                            </div>
+                            <div className="relative">
+                                <div className="absolute left-3 top-3 text-gray-400">
+                                    <FaLock />
+                                </div>
+                                <input
+                                    type="password"
+                                    id="password"
+                                    value={password}
+                                    onChange={(e) =>
+                                        setPassword(e.target.value)
+                                    }
+                                    className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                                    placeholder="••••••••"
+                                />
+                            </div>
+                        </div>
 
-                <div className="mt-6 text-center">
-                    <p className="text-sm text-gray-400">
-                        Don't have an account?{" "}
-                        <Link
-                            to="/signup"
-                            className="text-cyan-400 hover:text-cyan-300"
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className="w-full px-6 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-blue-500 text-white hover:from-blue-700 hover:to-blue-600 transition-all duration-200 shadow-lg shadow-blue-500/20 disabled:opacity-50 font-medium"
                         >
-                            Create an account
-                        </Link>
-                    </p>
+                            {loading ? "Signing In..." : "Sign In"}
+                        </button>
+                    </form>
+
+                    <div className="mt-8 text-center">
+                        <p className="text-sm text-gray-600">
+                            Don't have an account?{" "}
+                            <Link
+                                to="/signup"
+                                className="font-medium text-blue-600 hover:text-blue-500"
+                            >
+                                Create an account
+                            </Link>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
