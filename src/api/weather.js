@@ -18,9 +18,9 @@ export const getCoordinates = async (location) => {
 
 export const getWeatherForecast = async (latitude, longitude, timezone) => {
     try {
-        const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=weather_code,sunrise,sunset,temperature_2m_max,temperature_2m_min,uv_index_max,rain_sum,temperature_2m_mean,visibility_mean,wind_speed_10m_mean,cloud_cover_mean,surface_pressure_mean,relative_humidity_2m_mean&hourly=temperature_2m,weather_code,is_day&current=temperature_2m,is_day,apparent_temperature,weather_code,wind_speed_10m,rain,precipitation,surface_pressure,cloud_cover,relative_humidity_2m&timezone=${encodeURIComponent(
+        const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=relative_humidity_2m_mean,precipitation_probability_max,weather_code,sunrise,sunset,temperature_2m_max,temperature_2m_min,uv_index_max,rain_sum,temperature_2m_mean,visibility_mean,wind_speed_10m_mean,cloud_cover_mean,surface_pressure_mean,relative_humidity_2m_mean&hourly=temperature_2m,weather_code,is_day,snowfall,showers,pressure_msl,wind_gusts_10m,wind_direction_10m,dew_point_2m,visibility,precipitation_probability,uv_index,cape&current=temperature_2m,is_day,apparent_temperature,weather_code,wind_speed_10m,rain,precipitation,surface_pressure,cloud_cover,relative_humidity_2m,snowfall,showers,pressure_msl,wind_gusts_10m,wind_direction_10m,dew_point_2m,visibility,precipitation_probability,uv_index,cape&timezone=${encodeURIComponent(
             timezone
-        )}&temporal_resolution=hourly_3`;
+        )}`;
         console.log(weatherUrl);
         const response = await fetch(weatherUrl);
         if (!response.ok) {

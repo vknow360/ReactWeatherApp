@@ -6,63 +6,137 @@ import {
 } from "react-icons/fa";
 
 const AlertFilter = ({ filters, onFilterChange }) => {
+    const severityConfig = {
+        high: {
+            icon: FaExclamationTriangle,
+            label: "High Priority",
+            activeClass:
+                "bg-red-500 text-white border-red-500 hover:bg-red-600",
+            inactiveClass:
+                "bg-white text-red-700 border-red-200 hover:border-red-500",
+        },
+        medium: {
+            icon: FaExclamationCircle,
+            label: "Medium Priority",
+            activeClass:
+                "bg-yellow-500 text-white border-yellow-500 hover:bg-yellow-600",
+            inactiveClass:
+                "bg-white text-yellow-700 border-yellow-200 hover:border-yellow-500",
+        },
+        low: {
+            icon: FaInfoCircle,
+            label: "Low Priority",
+            activeClass:
+                "bg-blue-500 text-white border-blue-500 hover:bg-blue-600",
+            inactiveClass:
+                "bg-white text-blue-700 border-blue-200 hover:border-blue-500",
+        },
+    };
+
     return (
-        <div className="bg-[#1a2535] px-4 py-3 border-b border-[#243447] animate-slideDown">
-            <div className="flex flex-col space-y-2">
-                <p className="text-gray-300 text-xs mb-1">
-                    Filter by severity level:
-                </p>
+        <div className="space-y-4">
+            {/* Filter Section Title */}
+            <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-gray-900">
+                    Alert Filters
+                </h3>
+                <button
+                    onClick={() => {
+                        Object.keys(filters).forEach((key) =>
+                            onFilterChange(key)
+                        );
+                    }}
+                    className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+                >
+                    Toggle All
+                </button>
+            </div>
 
-                <div className="flex flex-wrap gap-2">
-                    <button
-                        onClick={() => onFilterChange("high")}
-                        className={`flex items-center gap-1.5 py-1.5 px-3 rounded-lg text-xs ${
-                            filters.high
-                                ? "bg-[#E74C3C]/30 text-[#E74C3C] border border-[#E74C3C]/30"
-                                : "bg-[#243447] text-gray-400 border border-transparent"
-                        }`}
-                    >
-                        <FaExclamationTriangle />
-                        <span>High</span>
-                        <span className="bg-[#E74C3C] text-white text-[9px] rounded-full px-1.5 py-0.5 ml-1">
-                            Urgent
-                        </span>
-                    </button>
+            {/* Filter Chips Container */}
+            <div className="flex flex-col gap-3">
+                {Object.entries(severityConfig).map(([severity, config]) => {
+                    const Icon = config.icon;
+                    const isActive = filters[severity];
+                    const baseClasses =
+                        "relative flex items-center w-full px-4 py-3 rounded-xl border transition-all duration-200 cursor-pointer group";
+                    const dynamicClasses = isActive
+                        ? config.activeClass
+                        : config.inactiveClass;
 
-                    <button
-                        onClick={() => onFilterChange("medium")}
-                        className={`flex items-center gap-1.5 py-1.5 px-3 rounded-lg text-xs ${
-                            filters.medium
-                                ? "bg-[#F39C12]/30 text-[#F39C12] border border-[#F39C12]/30"
-                                : "bg-[#243447] text-gray-400 border border-transparent"
-                        }`}
-                    >
-                        <FaExclamationCircle />
-                        <span>Medium</span>
-                        <span className="bg-[#F39C12] text-white text-[9px] rounded-full px-1.5 py-0.5 ml-1">
-                            Caution
-                        </span>
-                    </button>
+                    return (
+                        <button
+                            key={severity}
+                            onClick={() => onFilterChange(severity)}
+                            className={`${baseClasses} ${dynamicClasses}`}
+                        >
+                            <div className="flex items-center justify-between w-full">
+                                <div className="flex items-center gap-3">
+                                    <div
+                                        className={`rounded-lg p-2 ${
+                                            isActive
+                                                ? "bg-white/20"
+                                                : "bg-current/10"
+                                        }`}
+                                    >
+                                        <Icon
+                                            className={`w-4 h-4 ${
+                                                isActive
+                                                    ? "text-white"
+                                                    : "text-current"
+                                            }`}
+                                        />
+                                    </div>
+                                    <span className="font-medium">
+                                        {config.label}
+                                    </span>
+                                </div>
+                                <div
+                                    className={`w-4 h-4 rounded-full border-2 ${
+                                        isActive
+                                            ? "bg-white border-transparent"
+                                            : "bg-transparent border-gray-300 group-hover:border-current"
+                                    }`}
+                                >
+                                    {isActive && (
+                                        <svg
+                                            className="w-full h-full text-current"
+                                            viewBox="0 0 16 16"
+                                        >
+                                            <circle
+                                                cx="8"
+                                                cy="8"
+                                                r="4"
+                                                fill="currentColor"
+                                            />
+                                        </svg>
+                                    )}
+                                </div>
+                            </div>
+                        </button>
+                    );
+                })}
+            </div>
 
-                    <button
-                        onClick={() => onFilterChange("low")}
-                        className={`flex items-center gap-1.5 py-1.5 px-3 rounded-lg text-xs ${
-                            filters.low
-                                ? "bg-[#3498DB]/30 text-[#3498DB] border border-[#3498DB]/30"
-                                : "bg-[#243447] text-gray-400 border border-transparent"
-                        }`}
-                    >
-                        <FaInfoCircle />
-                        <span>Low</span>
-                        <span className="bg-[#3498DB] text-white text-[9px] rounded-full px-1.5 py-0.5 ml-1">
-                            Info
-                        </span>
-                    </button>
+            {/* Quick Actions */}
+            <div className="pt-4 mt-4 border-t border-gray-100">
+                <div className="grid grid-cols-2 gap-3">
+                    <div className="px-3 py-2 bg-gray-50 rounded-lg text-center">
+                        <p className="text-sm font-medium text-gray-600">
+                            Active Filters
+                        </p>
+                        <p className="text-lg font-semibold text-gray-900">
+                            {Object.values(filters).filter(Boolean).length}
+                        </p>
+                    </div>
+                    <div className="px-3 py-2 bg-gray-50 rounded-lg text-center">
+                        <p className="text-sm font-medium text-gray-600">
+                            Total Filters
+                        </p>
+                        <p className="text-lg font-semibold text-gray-900">
+                            {Object.keys(filters).length}
+                        </p>
+                    </div>
                 </div>
-
-                <p className="text-gray-500 text-[10px] mt-1">
-                    Select severity levels to show or hide alerts
-                </p>
             </div>
         </div>
     );

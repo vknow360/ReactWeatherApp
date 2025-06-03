@@ -12,40 +12,100 @@ import { WiHumidity } from "react-icons/wi";
 
 const AlertTypeSelector = ({ types = [], selectedType, onTypeChange }) => {
     const typeInfo = {
-        all: { icon: <FaCloud />, name: "All Alerts" },
-        temperature: { icon: <FaTemperatureHigh />, name: "Temperature" },
-        precipitation: { icon: <FaCloudRain />, name: "Precipitation" },
-        wind: { icon: <FaWind />, name: "Wind" },
-        visibility: { icon: <FaEye />, name: "Visibility" },
-        uv: { icon: <FaSun />, name: "UV Index" },
-        thunderstorm: { icon: <FaBolt />, name: "Thunderstorm" },
-        humidity: { icon: <WiHumidity size={18} />, name: "Humidity" },
-        air: { icon: <FaCloud />, name: "Air Quality" },
+        all: { icon: FaCloud, name: "All Alerts", color: "blue" },
+        temperature: {
+            icon: FaTemperatureHigh,
+            name: "Temperature",
+            color: "red",
+        },
+        precipitation: {
+            icon: FaCloudRain,
+            name: "Precipitation",
+            color: "cyan",
+        },
+        wind: { icon: FaWind, name: "Wind", color: "indigo" },
+        visibility: { icon: FaEye, name: "Visibility", color: "purple" },
+        uv: { icon: FaSun, name: "UV Index", color: "amber" },
+        thunderstorm: { icon: FaBolt, name: "Thunderstorm", color: "yellow" },
+        humidity: { icon: WiHumidity, name: "Humidity", color: "teal" },
     };
 
     return (
-        <div className="px-4 py-3 border-b border-[#243447] overflow-x-auto">
-            <div className="flex space-x-2">
+        <div className="space-y-4">
+            {/* Section Title */}
+            <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-gray-900">
+                    Alert Categories
+                </h3>
+            </div>
+
+            {/* Type Selection Grid */}
+            <div className="grid grid-cols-2 gap-3">
                 {types.map((type) => {
                     const info = typeInfo[type] || {
-                        icon: <FaCloud />,
+                        icon: FaCloud,
                         name: type.charAt(0).toUpperCase() + type.slice(1),
+                        color: "gray",
                     };
+                    const Icon = info.icon;
+                    const isSelected = type === selectedType;
+
                     return (
                         <button
                             key={type}
                             onClick={() => onTypeChange(type)}
-                            className={`flex items-center gap-1.5 py-1.5 px-3 rounded-lg text-xs whitespace-nowrap ${
-                                selectedType === type
-                                    ? "bg-cyan-500/25 text-cyan-400"
-                                    : "bg-[#1a2535] text-gray-400 hover:bg-[#243447]"
-                            }`}
+                            className={`
+                                relative p-3 rounded-xl border transition-all duration-200
+                                ${
+                                    isSelected
+                                        ? `bg-${info.color}-500 border-${info.color}-500 text-white hover:bg-${info.color}-600`
+                                        : `bg-white border-gray-200 text-${info.color}-700 hover:border-${info.color}-500`
+                                }
+                            `}
                         >
-                            <span className="text-base">{info.icon}</span>
-                            <span>{info.name}</span>
+                            <div className="flex flex-col items-center gap-2">
+                                <div
+                                    className={`rounded-lg p-2 ${
+                                        isSelected
+                                            ? "bg-white/20"
+                                            : `bg-${info.color}-50`
+                                    }`}
+                                >
+                                    <Icon
+                                        className={`w-5 h-5 ${
+                                            isSelected
+                                                ? "text-white"
+                                                : `text-${info.color}-500`
+                                        }`}
+                                    />
+                                </div>
+                                <span className="text-sm font-medium line-clamp-1">
+                                    {info.name}
+                                </span>
+                            </div>
+
+                            {/* Selection Indicator */}
+                            <div
+                                className={`absolute top-2 right-2 w-2 h-2 rounded-full ${
+                                    isSelected ? "bg-white" : "bg-transparent"
+                                }`}
+                            />
                         </button>
                     );
                 })}
+            </div>
+
+            {/* Current Selection Info */}
+            <div className="pt-4 mt-4 border-t border-gray-100">
+                <div className="bg-gray-50 rounded-lg p-3">
+                    <p className="text-sm text-gray-600 text-center">
+                        {selectedType === "all"
+                            ? "Showing all alert types"
+                            : `Filtered to ${
+                                  typeInfo[selectedType]?.name || selectedType
+                              } alerts`}
+                    </p>
+                </div>
             </div>
         </div>
     );

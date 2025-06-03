@@ -1,20 +1,29 @@
 import React, { useEffect, useState } from "react";
-import Sidebar from "../components/Sidebar";
-import Main from "../components/Main";
+import Main from "../components/home/Main";
 import WeatherContext from "../context/WeatherContext";
 import { getWeatherForecast } from "../api/weather";
 import { data } from "./sampleData";
 import { FaRobot, FaTimes } from "react-icons/fa";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import Footer from "../components/Footer";
 
 const Home = () => {
     const [weather, setWeather] = useState(data);
     const [error, setError] = useState("");
+    const [isLoading, setIsLoading] = useState(true);
     const [location, setLocation] = useState({
         lat: 0,
         lon: 0,
         timeZone: "auto",
         name: "Gorakhpur, India",
+    });
+    const [favorites, setFavorites] = useState(() => {
+        const saved = localStorage.getItem("weatherFavorites");
+        return saved ? JSON.parse(saved) : [];
+    });
+    const [unit, setUnit] = useState(() => {
+        const saved = localStorage.getItem("weatherUnit");
+        return saved || "celsius";
     });
 
     const [aiInput, setAiInput] = useState("");
@@ -27,6 +36,7 @@ const Home = () => {
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(
                 async (position) => {
+                    setIsLoading(true);
                     const lat = position.coords.latitude;
                     const lon = position.coords.longitude;
                     if (lat == 0 || lon == 0) {
@@ -58,9 +68,11 @@ const Home = () => {
                         setWeather(data);
                         setError(err);
                     }
+                    setIsLoading(false);
                 },
                 (err) => {
                     setError(`Geolocation error: ${err.message}`);
+                    setIsLoading(false);
                 },
                 {
                     timeout: 5000,
@@ -113,127 +125,184 @@ const Home = () => {
         setAiError("");
     };
 
+    const refreshWeather = async () => {
+        setIsLoading(true);
+        try {
+            const { weath, err } = await getWeatherForecast(
+                location.lat,
+                location.lon,
+                location.timeZone
+            );
+            if (err === "") {
+                setWeather(weath);
+                setError("");
+            } else {
+                setError(err);
+            }
+        } catch (err) {
+            setError("Failed to refresh weather data");
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const toggleUnit = () => {
+        const newUnit = unit === "celsius" ? "fahrenheit" : "celsius";
+        setUnit(newUnit);
+        localStorage.setItem("weatherUnit", newUnit);
+    };
+
+    const addToFavorites = () => {
+        if (
+            !favorites.some(
+                (fav) => fav.lat === location.lat && fav.lon === location.lon
+            )
+        ) {
+            const newFavorites = [...favorites, location];
+            setFavorites(newFavorites);
+            localStorage.setItem(
+                "weatherFavorites",
+                JSON.stringify(newFavorites)
+            );
+        }
+    };
+
+    const removeFromFavorites = () => {
+        const newFavorites = favorites.filter(
+            (fav) => !(fav.lat === location.lat && fav.lon === location.lon)
+        );
+        setFavorites(newFavorites);
+        localStorage.setItem("weatherFavorites", JSON.stringify(newFavorites));
+    };
+
+    const isLocationFavorite = favorites.some(
+        (fav) => fav.lat === location.lat && fav.lon === location.lon
+    );
+
     return (
-        <div className="flex flex-col min-h-full w-full p-3 bg-[#162438] relative pt-20 sm:pt-0 sm:p-2">
-            <div className="flex flex-col sm:flex-row flex-grow">
-                <WeatherContext.Provider
-                    value={{
-                        weather,
-                        error,
-                        location,
-                        setWeather,
-                        setError,
-                        setLocation,
-                    }}
-                >
-                    <Main />
-                </WeatherContext.Provider>
-            </div>
-
-            <button
-                onClick={() => setShowChatbot(!showChatbot)}
-                className="fixed bottom-10 right-6 bg-[#4361ee] text-white p-4 rounded-full shadow-lg hover:bg-[#3a56d4] transition-all duration-300 z-50"
-            >
-                {showChatbot ? <FaTimes size={24} /> : <FaRobot size={24} />}
-            </button>
-
-            {showChatbot && (
-                <div className="fixed bottom-24 right-6 w-80 h-96 bg-[#1a1a2e] rounded-lg shadow-xl border border-[#2b2d42] flex flex-col z-50 overflow-hidden">
-                    <div className="bg-[#2b2d42] p-3 text-white font-semibold flex justify-between items-center">
-                        <h3>Weather AI Assistant</h3>
-                        <button
-                            onClick={() => setShowChatbot(false)}
-                            className="text-white hover:text-gray-300"
-                        >
-                            <FaTimes />
-                        </button>
+        <WeatherContext.Provider
+            value={{
+                weather,
+                error,
+                location,
+                isLoading,
+                setWeather,
+                setError,
+                setLocation,
+                setIsLoading,
+                unit,
+                toggleUnit,
+                favorites,
+                addToFavorites,
+                removeFromFavorites,
+                isLocationFavorite,
+                refreshWeather,
+            }}
+        >
+            <div className="flex flex-col md:flex-row min-h-screen bg-gray-100">
+                {/* Main Content Area - Full width on mobile, adjusted for sidebar on larger screens */}
+                <div className="flex-1 w-full">
+                    <div className="container mx-auto max-w-[2000px] px-0 md:px-4 lg:px-4">
+                        <Main />
                     </div>
 
-                    <div className="flex-1 overflow-y-auto p-4 space-y-3">
-                        {conversation.length === 0 ? (
-                            <div className="text-center text-gray-400 h-full flex flex-col items-center justify-center">
-                                <FaRobot
-                                    size={48}
-                                    className="mb-4 text-[#4361ee]"
-                                />
-                                <p>Ask me anything about weather!</p>
-                                <p className="text-sm mt-2">
-                                    Try: "What should I wear in {location.name}
-                                    ?"
-                                </p>
-                            </div>
-                        ) : (
-                            conversation.map((message, index) => (
-                                <div
-                                    key={index}
-                                    className={`p-3 rounded-lg max-w-[80%] ${
-                                        message.sender === "user"
-                                            ? "bg-[#4361ee] text-white ml-auto"
-                                            : "bg-[#2b2d42] text-white mr-auto"
-                                    }`}
-                                >
-                                    <div className="text-xs text-gray-300 mb-1">
-                                        {message.sender === "user"
-                                            ? "You"
-                                            : "AI"}{" "}
-                                        •{" "}
-                                        {new Date(
-                                            message.timestamp
-                                        ).toLocaleTimeString([], {
-                                            hour: "2-digit",
-                                            minute: "2-digit",
-                                        })}
-                                    </div>
-                                    <div>{message.text}</div>
-                                </div>
-                            ))
-                        )}
+                    {/* Footer */}
+                    <div className="mt-8">
+                        <Footer />
                     </div>
-
-                    <form
-                        onSubmit={handleAiSubmit}
-                        className="p-3 border-t border-[#2b2d42]"
-                    >
-                        <div className="flex">
-                            <input
-                                type="text"
-                                value={aiInput}
-                                onChange={(e) => setAiInput(e.target.value)}
-                                placeholder="Type your question..."
-                                className="flex-1 bg-[#2b2d42] text-white p-2 rounded-l-lg focus:outline-none"
-                                disabled={aiLoading}
-                            />
-                            <button
-                                type="submit"
-                                className="bg-[#4361ee] text-white px-4 rounded-r-lg hover:bg-[#3a56d4] disabled:bg-gray-600"
-                                disabled={aiLoading}
-                            >
-                                {aiLoading ? "..." : "→"}
-                            </button>
-                        </div>
-                        {aiError && (
-                            <div className="text-red-400 text-xs mt-1">
-                                {aiError}
-                            </div>
-                        )}
-                        <button
-                            type="button"
-                            onClick={clearAiChat}
-                            className="text-gray-400 text-xs mt-2 hover:text-white"
-                        >
-                            Clear chat
-                        </button>
-                    </form>
                 </div>
-            )}
 
-            {showChatbot && (
-                <div
-                    className="fixed inset-0 bg-black bg-opacity-20 z-40"
-                    onClick={() => setShowChatbot(false)}
-                />
-            )}
-        </div>
+                {/* AI Chatbot - Floating button and chat window */}
+                <div className="fixed bottom-20 md:bottom-6 right-4 z-50">
+                    {!showChatbot && (
+                        <button
+                            onClick={() => setShowChatbot(true)}
+                            className="p-4 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-full text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                            aria-label="Open AI Chat"
+                        >
+                            <FaRobot className="w-6 h-6" />
+                        </button>
+                    )}
+
+                    {showChatbot && (
+                        <div className="bg-white rounded-2xl shadow-xl w-[90vw] sm:w-[400px] max-h-[600px] overflow-hidden border border-gray-200">
+                            <div className="p-4 bg-gradient-to-r from-blue-50 to-cyan-50 border-b border-gray-200 flex justify-between items-center">
+                                <div className="flex items-center gap-3">
+                                    <FaRobot className="text-blue-600 w-5 h-5" />
+                                    <h3 className="text-gray-800 font-semibold">
+                                        Weather Assistant
+                                    </h3>
+                                </div>
+                                <button
+                                    onClick={() => {
+                                        setShowChatbot(false);
+                                        setAiError("");
+                                    }}
+                                    className="text-gray-500 hover:text-gray-700"
+                                >
+                                    <FaTimes />
+                                </button>
+                            </div>
+
+                            {/* Chat Messages */}
+                            <div className="p-4 h-[400px] overflow-y-auto space-y-4">
+                                {conversation.map((msg, index) => (
+                                    <div
+                                        key={index}
+                                        className={`flex ${
+                                            msg.role === "user"
+                                                ? "justify-end"
+                                                : "justify-start"
+                                        }`}
+                                    >
+                                        <div
+                                            className={`max-w-[80%] p-3 rounded-xl ${
+                                                msg.role === "user"
+                                                    ? "bg-blue-100 text-gray-800"
+                                                    : "bg-gray-100 text-gray-800"
+                                            }`}
+                                        >
+                                            {msg.parts}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Input Form */}
+                            <form
+                                onSubmit={handleAiSubmit}
+                                className="p-4 border-t border-gray-200 bg-gray-50"
+                            >
+                                <div className="flex gap-2">
+                                    <input
+                                        type="text"
+                                        value={aiInput}
+                                        onChange={(e) =>
+                                            setAiInput(e.target.value)
+                                        }
+                                        placeholder="Ask about weather..."
+                                        className="flex-1 bg-white text-gray-800 p-2 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500"
+                                        disabled={aiLoading}
+                                    />
+                                    <button
+                                        type="submit"
+                                        className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-4 py-2 rounded-lg hover:opacity-90 disabled:opacity-50 transition-all duration-300"
+                                        disabled={aiLoading}
+                                    >
+                                        {aiLoading ? "..." : "Ask"}
+                                    </button>
+                                </div>
+                                {aiError && (
+                                    <div className="mt-2 text-red-600 text-sm">
+                                        {aiError}
+                                    </div>
+                                )}
+                            </form>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </WeatherContext.Provider>
     );
 };
 

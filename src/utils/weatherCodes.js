@@ -93,205 +93,96 @@ export const getWeatherIcon = (code, isDay = true) => {
 export const getWeatherCodeDetails = (code) => {
     const codes = {
         0: {
-            description: "Clear",
-            iconDay:
-                "https://assets-v2.lottiefiles.com/a/8c295244-116c-11ee-b2ad-875cced2a6c4/la2s01QeJ9.lottie",
-            iconNight:
-                "https://assets-v2.lottiefiles.com/a/fbc69c18-1808-11ee-927e-63bf50aff3d7/3GhtwkECl4.lottie",
+            description: "Clear sky",
         },
         1: {
-            description: "Mostly Clear",
-            iconDay:
-                "https://assets-v2.lottiefiles.com/a/584a51a0-1151-11ee-870f-73f0e4a25c18/OiRsquuDDf.lottie",
-            iconNight:
-                "https://assets-v2.lottiefiles.com/a/583b455c-1151-11ee-870b-13dd4c78db9c/9xWkK1I9gX.lottie",
+            description: "Mainly clear",
         },
         2: {
             description: "Partly cloudy",
-            iconDay:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2de-1183-11ee-baf6-173d0526caf0/bp3GDPqFGT.lottie",
-            iconNight:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2e2-1183-11ee-b686-47223a1b9836/mc1QY8zH05.lottie",
         },
         3: {
             description: "Overcast",
-            iconDay:
-                "https://assets-v2.lottiefiles.com/a/faf03308-1808-11ee-91d1-739f10e56c3d/YTDV6yU0Ta.lottie",
-            iconNight:
-                "https://assets-v2.lottiefiles.com/a/faf9adfc-1808-11ee-91dc-37f7d19587c4/vWJRK7XDvJ.lottie",
         },
         45: {
-            description: "Fog",
-            iconDay:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2df-1183-11ee-b42d-23b3716fe8f2/hp21UebB00.lottie",
-            iconNight:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2e3-1183-11ee-bb81-4f4c1eb98680/0aRwP7HDBC.lottie",
+            description: "Foggy",
         },
         48: {
-            description: "Rime fog",
-            iconDay:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2df-1183-11ee-b42d-23b3716fe8f2/hp21UebB00.lottie",
-            iconNight:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2e3-1183-11ee-bb81-4f4c1eb98680/0aRwP7HDBC.lottie",
+            description: "Depositing rime fog",
         },
         51: {
             description: "Light drizzle",
-            iconDay:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2df-1183-11ee-b42d-23b3716fe8f2/GDvFbpyhq7.lottie",
-            iconNight:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2e3-1183-11ee-bb81-4f4c1eb98680/XuK1bB9MDm.lottie",
         },
         53: {
             description: "Moderate drizzle",
-            iconDay:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2df-1183-11ee-b42d-23b3716fe8f2/GDvFbpyhq7.lottie",
-            iconNight:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2e3-1183-11ee-bb81-4f4c1eb98680/XuK1bB9MDm.lottie",
         },
         55: {
-            description: "Heavy drizzle",
-            iconDay:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2df-1183-11ee-b42d-23b3716fe8f2/GDvFbpyhq7.lottie",
-            iconNight:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2e3-1183-11ee-bb81-4f4c1eb98680/XuK1bB9MDm.lottie",
+            description: "Dense drizzle",
         },
         56: {
             description: "Light freezing drizzle",
-            iconDay:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2df-1183-11ee-b42d-23b3716fe8f2/ZqrQCPQRsr.lottie",
-            iconNight:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2e3-1183-11ee-bb81-4f4c1eb98680/bq88tEbomk.lottie",
         },
         57: {
-            description: "Heavy freezing drizzle",
-            iconDay:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2df-1183-11ee-b42d-23b3716fe8f2/ZqrQCPQRsr.lottie",
-            iconNight:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2e3-1183-11ee-bb81-4f4c1eb98680/bq88tEbomk.lottie",
+            description: "Dense freezing drizzle",
         },
         61: {
             description: "Slight rain",
-            iconDay:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2df-1183-11ee-b42d-23b3716fe8f2/GDvFbpyhq7.lottie",
-            iconNight:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2e3-1183-11ee-bb81-4f4c1eb98680/XuK1bB9MDm.lottie",
         },
         63: {
             description: "Moderate rain",
-            iconDay:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2df-1183-11ee-b42d-23b3716fe8f2/GDvFbpyhq7.lottie",
-            iconNight:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2e3-1183-11ee-bb81-4f4c1eb98680/XuK1bB9MDm.lottie",
         },
         65: {
             description: "Heavy rain",
-            iconDay:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2df-1183-11ee-b42d-23b3716fe8f2/GDvFbpyhq7.lottie",
-            iconNight:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2e3-1183-11ee-bb81-4f4c1eb98680/XuK1bB9MDm.lottie",
         },
         66: {
             description: "Light freezing rain",
-            iconDay:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2df-1183-11ee-b42d-23b3716fe8f2/ZqrQCPQRsr.lottie",
-            iconNight:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2e3-1183-11ee-bb81-4f4c1eb98680/bq88tEbomk.lottie",
         },
         67: {
             description: "Heavy freezing rain",
-            iconDay:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2df-1183-11ee-b42d-23b3716fe8f2/ZqrQCPQRsr.lottie",
-            iconNight:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2e3-1183-11ee-bb81-4f4c1eb98680/bq88tEbomk.lottie",
         },
         71: {
             description: "Slight snow fall",
-            iconDay:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2df-1183-11ee-b42d-23b3716fe8f2/ZqrQCPQRsr.lottie",
-            iconNight:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2e3-1183-11ee-bb81-4f4c1eb98680/bq88tEbomk.lottie",
         },
         73: {
             description: "Moderate snow fall",
-            iconDay:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2df-1183-11ee-b42d-23b3716fe8f2/ZqrQCPQRsr.lottie",
-            iconNight:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2e3-1183-11ee-bb81-4f4c1eb98680/bq88tEbomk.lottie",
         },
         75: {
             description: "Heavy snow fall",
-            iconDay:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2df-1183-11ee-b42d-23b3716fe8f2/ZqrQCPQRsr.lottie",
-            iconNight:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2e3-1183-11ee-bb81-4f4c1eb98680/bq88tEbomk.lottie",
         },
         77: {
             description: "Snow grains",
-            iconDay:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2df-1183-11ee-b42d-23b3716fe8f2/ZqrQCPQRsr.lottie",
-            iconNight:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2e3-1183-11ee-bb81-4f4c1eb98680/bq88tEbomk.lottie",
         },
         80: {
             description: "Slight rain showers",
-            iconDay:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2df-1183-11ee-b42d-23b3716fe8f2/GDvFbpyhq7.lottie",
-            iconNight:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2e3-1183-11ee-bb81-4f4c1eb98680/XuK1bB9MDm.lottie",
         },
         81: {
             description: "Moderate rain showers",
-            iconDay:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2df-1183-11ee-b42d-23b3716fe8f2/GDvFbpyhq7.lottie",
-            iconNight:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2e3-1183-11ee-bb81-4f4c1eb98680/XuK1bB9MDm.lottie",
         },
         82: {
             description: "Violent rain showers",
-            iconDay:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2df-1183-11ee-b42d-23b3716fe8f2/GDvFbpyhq7.lottie",
-            iconNight:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2e3-1183-11ee-bb81-4f4c1eb98680/XuK1bB9MDm.lottie",
         },
         85: {
             description: "Slight snow showers",
-            iconDay:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2df-1183-11ee-b42d-23b3716fe8f2/ZqrQCPQRsr.lottie",
-            iconNight:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2e3-1183-11ee-bb81-4f4c1eb98680/bq88tEbomk.lottie",
         },
         86: {
             description: "Heavy snow showers",
-            iconDay:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2df-1183-11ee-b42d-23b3716fe8f2/ZqrQCPQRsr.lottie",
-            iconNight:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2e3-1183-11ee-bb81-4f4c1eb98680/bq88tEbomk.lottie",
         },
         95: {
-            description: "Slight thunderstorm",
-            iconDay:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2df-1183-11ee-b42d-23b3716fe8f2/n6fz7BEWTb.lottie",
-            iconNight:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2e3-1183-11ee-bb81-4f4c1eb98680/IE0h1K1DWz.lottie",
+            description: "Thunderstorm",
         },
         96: {
             description: "Thunderstorm with slight hail",
-            iconDay:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2df-1183-11ee-b42d-23b3716fe8f2/n6fz7BEWTb.lottie",
-            iconNight:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2e3-1183-11ee-bb81-4f4c1eb98680/IE0h1K1DWz.lottie",
         },
         99: {
             description: "Thunderstorm with heavy hail",
-            iconDay:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2df-1183-11ee-b42d-23b3716fe8f2/n6fz7BEWTb.lottie",
-            iconNight:
-                "https://assets-v2.lottiefiles.com/a/ca1fb2e3-1183-11ee-bb81-4f4c1eb98680/IE0h1K1DWz.lottie",
         },
     };
 
-    // Default to clear sky if code not found
-    return codes[code] || codes[0];
+    return (
+        codes[code] || {
+            description: "Unknown",
+        }
+    );
 };
 
 // Weather alert threshold values

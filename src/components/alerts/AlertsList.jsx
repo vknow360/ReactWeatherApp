@@ -66,24 +66,28 @@ const AlertsList = ({ alerts = [] }) => {
     };
 
     return (
-        <div className="p-4">
+        <div className="space-y-4 sm:space-y-6">
             {alerts && alerts.length > 0 ? (
-                alerts.map((alert) => (
-                    <AlertCard
-                        key={alert.id}
-                        alert={alert}
-                        icon={getAlertIcon(alert.type, alert.icon)}
-                    />
-                ))
+                <div className="grid grid-cols-1 gap-4 sm:gap-6">
+                    {alerts.map((alert) => (
+                        <AlertCard
+                            key={alert.id}
+                            alert={alert}
+                            icon={getAlertIcon(alert.type, alert.icon)}
+                        />
+                    ))}
+                </div>
             ) : (
-                <div className="flex flex-col items-center justify-center py-16 px-4">
-                    <FaCloud className="text-gray-500 text-4xl mb-4" />
-                    <p className="text-gray-400 text-center">
-                        No active weather alerts for this location.
-                    </p>
-                    <p className="text-gray-500 text-sm text-center mt-2">
-                        Weather alerts are automatically generated based on
-                        forecast data.
+                <div className="flex flex-col items-center justify-center py-12 px-4 sm:py-16">
+                    <div className="bg-gray-50 rounded-full p-6 mb-6">
+                        <FaCloud className="text-blue-500 w-12 h-12" />
+                    </div>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2 text-center">
+                        No Active Alerts
+                    </h3>
+                    <p className="text-gray-500 text-center max-w-sm">
+                        Weather conditions are favorable. We'll notify you when
+                        new alerts are generated.
                     </p>
                 </div>
             )}

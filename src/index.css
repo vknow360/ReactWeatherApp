@@ -27,16 +27,6 @@ body,
 }
 
 /* Common card styling */
-.bg-[var(--color-bg-secondary)] {
-    box-shadow: var(--color-card-shadow);
-}
-
-@media (max-width: 640px) {
-    #root {
-        height: auto;
-        min-height: 100%;
-    }
-}
 
 input {
     background-color: transparent;
@@ -62,4 +52,52 @@ img {
 
 .suggestions::-webkit-scrollbar-thumb:hover {
     background: #4a5465;
+}
+
+@layer utilities {
+    .hide-scrollbar {
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+    }
+    .hide-scrollbar::-webkit-scrollbar {
+        display: none; /* Chrome, Safari and Opera */
+    }
+}
+
+/* Custom scrollbar for modern browsers */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Add gradient animation */
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.animate-gradient {
+    background-size: 200% 200%;
+    animation: gradient 15s ease infinite;
 }
