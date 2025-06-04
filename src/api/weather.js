@@ -33,7 +33,7 @@ export const getWeatherForecast = async (latitude, longitude, timezone) => {
     }
 };
 
-const apiKey = "gjigfrawthkmtyaf1kgezwz8rauwhvse0du1qpzw";
+const apiKey = import.meta.env.VITE_RSS2JSON_API_KEY;
 export const fetchNews = async (count = 3) => {
     try {
         const sources = [

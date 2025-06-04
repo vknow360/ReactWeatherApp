@@ -35,7 +35,7 @@ const UserMenu = ({ handleNavChange }) => {
     const handleLogout = async () => {
         try {
             await logout();
-            navigate("/login");
+            navigate("/");
         } catch (error) {
             console.error("Failed to log out:", error);
         }
@@ -142,11 +142,14 @@ function App() {
         timeZone: "auto",
         name: "Gorakhpur, India",
     });
-
-    // Apply default theme on app initialization
-    useEffect(() => {
-        applyDefaultTheme();
-    }, []);
+    const handleLogout = async () => {
+        try {
+            await logout();
+            navigate("/");
+        } catch (error) {
+            console.error("Failed to log out:", error);
+        }
+    };
 
     const currentLocation = useLocation();
     const navigate = useNavigate();
@@ -155,14 +158,6 @@ function App() {
         navigate(screen === "home" ? "/" : `/${screen}`);
     };
 
-    const handleLogout = async () => {
-        try {
-            await logout();
-            navigate("/login");
-        } catch (error) {
-            console.error("Failed to log out:", error);
-        }
-    };
     const getCurrentScreen = () => {
         if (currentLocation.pathname === "/alerts") return "alerts";
         if (currentLocation.pathname === "/about") return "about";
@@ -178,12 +173,12 @@ function App() {
             return "login";
         return "home";
     };
+
     return (
         <AuthProvider>
             <SettingsProvider>
-                {" "}
                 <div className="min-h-screen flex flex-col bg-[#0B1121]">
-                    {getCurrentScreen() != "login" && (
+                    {getCurrentScreen() !== "login" && (
                         <nav className="sticky top-0 z-50 bg-[#007bff] border-b border-cyan-800/50">
                             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 relative">
                                 {/* Logo section */}
@@ -347,20 +342,41 @@ function App() {
                             }}
                         >
                             <Routes>
-                                {" "}
-                                <Route path="/" element={<Home />} />
-                                <Route path="/about" element={<About />} />
-                                <Route path="/login" element={<Login />} />
-                                <Route path="/signup" element={<SignUp />} />
+                                <Route
+                                    path="/"
+                                    element={<Home key={currentLocation.key} />}
+                                />
+                                <Route
+                                    path="/about"
+                                    element={
+                                        <About key={currentLocation.key} />
+                                    }
+                                />
+                                <Route
+                                    path="/login"
+                                    element={
+                                        <Login key={currentLocation.key} />
+                                    }
+                                />
+                                <Route
+                                    path="/signup"
+                                    element={
+                                        <SignUp key={currentLocation.key} />
+                                    }
+                                />
                                 <Route
                                     path="/forgot-password"
-                                    element={<ForgotPassword />}
+                                    element={
+                                        <ForgotPassword
+                                            key={currentLocation.key}
+                                        />
+                                    }
                                 />
                                 {/* Protected Routes */}
                                 <Route
                                     path="/news"
                                     element={
-                                        <PrivateRoute>
+                                        <PrivateRoute key={currentLocation.key}>
                                             <News />
                                         </PrivateRoute>
                                     }
@@ -368,7 +384,7 @@ function App() {
                                 <Route
                                     path="/alerts"
                                     element={
-                                        <PrivateRoute>
+                                        <PrivateRoute key={currentLocation.key}>
                                             <Alerts />
                                         </PrivateRoute>
                                     }
@@ -376,7 +392,7 @@ function App() {
                                 <Route
                                     path="/favorites"
                                     element={
-                                        <PrivateRoute>
+                                        <PrivateRoute key={currentLocation.key}>
                                             <Favorites />
                                         </PrivateRoute>
                                     }
@@ -384,7 +400,7 @@ function App() {
                                 <Route
                                     path="/profile"
                                     element={
-                                        <PrivateRoute>
+                                        <PrivateRoute key={currentLocation.key}>
                                             <Profile />
                                         </PrivateRoute>
                                     }

@@ -1,15 +1,6 @@
-// Static theme variables (dark theme only)
-
-// This file contains static CSS variables that were previously applied dynamically
-// The theme switching functionality has been removed
-
-/**
- * Apply default dark theme variables to document root on initialization
- */
 export const applyDefaultTheme = () => {
     const root = document.documentElement;
 
-    // Dark theme colors
     root.style.setProperty("--color-bg-primary", "#162438");
     root.style.setProperty("--color-bg-secondary", "#202b3b");
     root.style.setProperty("--color-bg-tertiary", "#263142");

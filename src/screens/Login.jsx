@@ -22,7 +22,7 @@ const Login = () => {
             setError("");
             setLoading(true);
             await login(email, password);
-            navigate("/profile");
+            navigate("/");
         } catch (err) {
             setError("Failed to log in. Please check your credentials.");
             console.error(err);
