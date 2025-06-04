@@ -17,7 +17,7 @@ const HeroSection = () => {
             </p>
             <div className="flex flex-wrap gap-3">
                 <a
-                    href="https://github.com/yourusername/weather-app"
+                    href="https://github.com/vknow360/ReactWeatherApp"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="bg-[#2a3749] hover:bg-[#354761] transition-colors duration-300 px-4 py-2 rounded-lg text-sm inline-flex items-center"

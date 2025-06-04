@@ -82,7 +82,7 @@ const Footer = () => {
 
                     <div className="flex items-center gap-6">
                         <a
-                            href="https://github.com/yourusername/weathercast"
+                            href="https://github.com/vknow360/ReactWeatherApp"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-gray-400 hover:text-white transition-colors"
