@@ -2,9 +2,9 @@
 
 A sleek and modern weather application offering real-time forecasts, personalized alerts, and weather insights with an elegant light theme design.
 
-![WeatherCast Dashboard](https://github.com/user-attachments/assets/648464d9-0d52-4887-9589-3d5e76f6f9f4)
+![image](https://github.com/user-attachments/assets/a1d19a88-c247-4efc-9663-31e05c9d606a)
 
-[Live Demo](https://weathercast-demo.web.app) | [Documentation](./docs) | [Report Bug](https://github.com/yourusername/weathercast/issues)
+[Live Demo](https://weather-ict6mlmrj-sunny-guptas-projects-7f7de4e3.vercel.app) | [Documentation](./docs) | [Report Bug](https://github.com/vknow360/ReactWeatherApp/issues)
 
 ## ✨ Key Features
 
