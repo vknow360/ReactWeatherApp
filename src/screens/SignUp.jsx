@@ -38,7 +38,7 @@ const SignUp = () => {
             setError("");
             setLoading(true);
             await signup(email, password, name);
-            navigate("/profile");
+            window.location.href = "/profile";
         } catch (err) {
             if (err.code === "auth/email-already-in-use") {
                 setError("Email is already in use");

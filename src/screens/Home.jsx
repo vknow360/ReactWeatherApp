@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import Main from "../components/home/Main";
 import WeatherContext from "../context/WeatherContext";
 import { useAuth } from "../context/AuthContext";
@@ -8,6 +9,12 @@ import { FaRobot, FaTimes, FaLock } from "react-icons/fa";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
+
+const pageVariants = {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -20 },
+};
 
 const Home = () => {
     const { currentUser } = useAuth();
@@ -179,147 +186,157 @@ const Home = () => {
     );
 
     return (
-        <WeatherContext.Provider
-            value={{
-                weather,
-                error,
-                location,
-                isLoading,
-                setWeather,
-                setError,
-                setLocation,
-                setIsLoading,
-                unit,
-                toggleUnit,
-                favorites,
-                addToFavorites,
-                removeFromFavorites,
-                isLocationFavorite,
-                refreshWeather,
-            }}
+        <motion.div
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            variants={pageVariants}
+            transition={{ duration: 0.3 }}
         >
-            <div className="flex flex-col md:flex-row min-h-screen bg-gray-100">
-                {/* Main Content Area - Full width on mobile, adjusted for sidebar on larger screens */}
-                <div className="flex-1 w-full">
-                    <div className="container mx-auto max-w-[2000px] px-0 md:px-4 lg:px-4">
-                        <Main />
+            <WeatherContext.Provider
+                value={{
+                    weather,
+                    error,
+                    location,
+                    isLoading,
+                    setWeather,
+                    setError,
+                    setLocation,
+                    setIsLoading,
+                    unit,
+                    toggleUnit,
+                    favorites,
+                    addToFavorites,
+                    removeFromFavorites,
+                    isLocationFavorite,
+                    refreshWeather,
+                }}
+            >
+                <div className="flex flex-col md:flex-row min-h-screen bg-gray-100">
+                    {/* Main Content Area - Full width on mobile, adjusted for sidebar on larger screens */}
+                    <div className="flex-1 w-full">
+                        <div className="container mx-auto max-w-[2000px] px-0 md:px-4 lg:px-4">
+                            <Main />
+                        </div>
+
+                        {/* Footer */}
+                        <div className="mt-8">
+                            <Footer />
+                        </div>
                     </div>
 
-                    {/* Footer */}
-                    <div className="mt-8">
-                        <Footer />
-                    </div>
-                </div>
-
-                {/* AI Chatbot - Only show if user is logged in */}
-                {currentUser && (
-                    <div className="fixed bottom-20 md:bottom-6 right-4 z-50">
-                        {!showChatbot && (
-                            <button
-                                onClick={() => setShowChatbot(true)}
-                                className="p-4 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-full text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
-                                aria-label="Open AI Chat"
-                            >
-                                <FaRobot className="w-6 h-6" />
-                            </button>
-                        )}
-
-                        {showChatbot && (
-                            <div className="bg-white rounded-2xl shadow-xl w-[90vw] sm:w-[400px] max-h-[600px] overflow-hidden border border-gray-200">
-                                <div className="p-4 bg-gradient-to-r from-blue-50 to-cyan-50 border-b border-gray-200 flex justify-between items-center">
-                                    <div className="flex items-center gap-3">
-                                        <FaRobot className="text-blue-600 w-5 h-5" />
-                                        <h3 className="text-gray-800 font-semibold">
-                                            Weather Assistant
-                                        </h3>
-                                    </div>
-                                    <button
-                                        onClick={() => {
-                                            setShowChatbot(false);
-                                            setAiError("");
-                                        }}
-                                        className="text-gray-500 hover:text-gray-700"
-                                    >
-                                        <FaTimes />
-                                    </button>
-                                </div>
-
-                                {/* Chat Messages */}
-                                <div className="p-4 h-[400px] overflow-y-auto space-y-4">
-                                    {conversation.map((msg, index) => (
-                                        <div
-                                            key={index}
-                                            className={`flex ${
-                                                msg.sender === "user"
-                                                    ? "justify-end"
-                                                    : "justify-start"
-                                            }`}
-                                        >
-                                            <div
-                                                className={`max-w-[80%] p-3 rounded-xl ${
-                                                    msg.sender === "user"
-                                                        ? "bg-blue-100 text-gray-800"
-                                                        : "bg-gray-100 text-gray-800"
-                                                }`}
-                                            >
-                                                {msg.text}
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-
-                                {/* Input Form */}
-                                <form
-                                    onSubmit={handleAiSubmit}
-                                    className="p-4 border-t border-gray-200 bg-gray-50"
+                    {/* AI Chatbot - Only show if user is logged in */}
+                    {currentUser && (
+                        <div className="fixed bottom-20 md:bottom-6 right-4 z-50">
+                            {!showChatbot && (
+                                <button
+                                    onClick={() => setShowChatbot(true)}
+                                    className="p-4 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-full text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                                    aria-label="Open AI Chat"
                                 >
-                                    <div className="flex gap-2">
-                                        <input
-                                            type="text"
-                                            value={aiInput}
-                                            onChange={(e) =>
-                                                setAiInput(e.target.value)
-                                            }
-                                            placeholder="Ask about weather..."
-                                            className="flex-1 bg-white text-gray-800 p-2 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500"
-                                            disabled={aiLoading}
-                                        />
+                                    <FaRobot className="w-6 h-6" />
+                                </button>
+                            )}
+
+                            {showChatbot && (
+                                <div className="bg-white rounded-2xl shadow-xl w-[90vw] sm:w-[400px] max-h-[600px] overflow-hidden border border-gray-200">
+                                    <div className="p-4 bg-gradient-to-r from-blue-50 to-cyan-50 border-b border-gray-200 flex justify-between items-center">
+                                        <div className="flex items-center gap-3">
+                                            <FaRobot className="text-blue-600 w-5 h-5" />
+                                            <h3 className="text-gray-800 font-semibold">
+                                                Weather Assistant
+                                            </h3>
+                                        </div>
                                         <button
-                                            type="submit"
-                                            className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-4 py-2 rounded-lg hover:opacity-90 disabled:opacity-50 transition-all duration-300"
-                                            disabled={aiLoading}
+                                            onClick={() => {
+                                                setShowChatbot(false);
+                                                setAiError("");
+                                            }}
+                                            className="text-gray-500 hover:text-gray-700"
                                         >
-                                            {aiLoading ? "..." : "Ask"}
+                                            <FaTimes />
                                         </button>
                                     </div>
-                                    {aiError && (
-                                        <div className="mt-2 text-red-600 text-sm">
-                                            {aiError}
-                                        </div>
-                                    )}
-                                </form>
-                            </div>
-                        )}
-                    </div>
-                )}
 
-                {/* Login prompt for non-authenticated users */}
-                {!currentUser && (
-                    <div className="fixed bottom-20 md:bottom-6 right-4 z-50">
-                        <button
-                            onClick={() => navigate("/login")}
-                            className="p-4 bg-gradient-to-r from-gray-600 to-gray-500 rounded-full text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 group relative"
-                            aria-label="Login to access AI Chat"
-                        >
-                            <FaLock className="w-6 h-6" />
-                            <div className="absolute bottom-full right-0 mb-2 w-48 p-2 bg-gray-800 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
-                                Login to access AI Weather Assistant
-                            </div>
-                        </button>
-                    </div>
-                )}
-            </div>
-        </WeatherContext.Provider>
+                                    {/* Chat Messages */}
+                                    <div className="p-4 h-[400px] overflow-y-auto space-y-4">
+                                        {conversation.map((msg, index) => (
+                                            <div
+                                                key={index}
+                                                className={`flex ${
+                                                    msg.sender === "user"
+                                                        ? "justify-end"
+                                                        : "justify-start"
+                                                }`}
+                                            >
+                                                <div
+                                                    className={`max-w-[80%] p-3 rounded-xl ${
+                                                        msg.sender === "user"
+                                                            ? "bg-blue-100 text-gray-800"
+                                                            : "bg-gray-100 text-gray-800"
+                                                    }`}
+                                                >
+                                                    {msg.text}
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    {/* Input Form */}
+                                    <form
+                                        onSubmit={handleAiSubmit}
+                                        className="p-4 border-t border-gray-200 bg-gray-50"
+                                    >
+                                        <div className="flex gap-2">
+                                            <input
+                                                type="text"
+                                                value={aiInput}
+                                                onChange={(e) =>
+                                                    setAiInput(e.target.value)
+                                                }
+                                                placeholder="Ask about weather..."
+                                                className="flex-1 bg-white text-gray-800 p-2 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500"
+                                                disabled={aiLoading}
+                                            />
+                                            <button
+                                                type="submit"
+                                                className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-4 py-2 rounded-lg hover:opacity-90 disabled:opacity-50 transition-all duration-300"
+                                                disabled={aiLoading}
+                                            >
+                                                {aiLoading ? "..." : "Ask"}
+                                            </button>
+                                        </div>
+                                        {aiError && (
+                                            <div className="mt-2 text-red-600 text-sm">
+                                                {aiError}
+                                            </div>
+                                        )}
+                                    </form>
+                                </div>
+                            )}
+                        </div>
+                    )}
+
+                    {/* Login prompt for non-authenticated users */}
+                    {!currentUser && (
+                        <div className="fixed bottom-20 md:bottom-6 right-4 z-50">
+                            <button
+                                onClick={() =>
+                                    (window.location.href = "/login")
+                                }
+                                className="p-4 bg-gradient-to-r from-gray-600 to-gray-500 rounded-full text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 group relative"
+                                aria-label="Login to access AI Chat"
+                            >
+                                <FaLock className="w-6 h-6" />
+                                <div className="absolute bottom-full right-0 mb-2 w-48 p-2 bg-gray-800 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
+                                    Login to access AI Weather Assistant
+                                </div>
+                            </button>
+                        </div>
+                    )}
+                </div>
+            </WeatherContext.Provider>
+        </motion.div>
     );
 };
 

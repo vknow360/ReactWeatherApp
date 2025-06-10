@@ -91,7 +91,7 @@ const Favorites = () => {
                 });
                 setWeather(weath);
                 setError("");
-                navigate("/"); // Navigate after successful data fetch
+                window.location.href = "/"; // Navigate after successful data fetch
             } else {
                 setError(err);
             }
