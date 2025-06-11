@@ -106,7 +106,7 @@ const Home = () => {
 
         try {
             const genAI = new GoogleGenerativeAI(
-                "AIzaSyBmbPEORoBPFVr8BQF4pgDkh3FG1DyLDOM"
+                import.meta.env.VITE_GEMINI_API_KEY || ""
             );
             const model = genAI.getGenerativeModel({
                 model: "gemini-2.0-flash",
