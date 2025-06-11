@@ -4,7 +4,7 @@ import Main from "../components/home/Main";
 import WeatherContext from "../context/WeatherContext";
 import { useAuth } from "../context/AuthContext";
 import { getWeatherForecast } from "../api/weather";
-import { data } from "./sampleData";
+import { data } from "../utils/sampleData";
 import { FaRobot, FaTimes, FaLock } from "react-icons/fa";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import Footer from "../components/Footer";
@@ -106,10 +106,10 @@ const Home = () => {
 
         try {
             const genAI = new GoogleGenerativeAI(
-                import.meta.env.VITE_GEMINI_API_KEY
+                "AIzaSyBmbPEORoBPFVr8BQF4pgDkh3FG1DyLDOM"
             );
             const model = genAI.getGenerativeModel({
-                model: "gemini-1.5-pro-latest",
+                model: "gemini-2.0-flash",
             });
 
             const result = await model.generateContent(aiInput);

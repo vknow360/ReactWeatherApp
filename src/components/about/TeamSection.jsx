@@ -8,38 +8,30 @@ const TeamSection = () => {
             role: "Team Leader and Developer",
             description:
                 "Leading the team with a vision for innovation and excellence",
-            avatar: "https://i.pravatar.cc/150?img=1",
-            github: "https://github.com/sunnygupta",
-            twitter: "https://twitter.com/sunnygupta",
-            linkedin: "https://linkedin.com/in/sunnygupta",
+            avatar: "https://i.pravatar.cc/150?img=12",
+            github: "https://github.com/Shubhojeet2005",
         },
         {
             name: "Sunny Gupta",
             role: "Lead Developer and UX Designer",
             description:
                 "Building robust applications with a focus on user experience",
-            avatar: "https://i.pravatar.cc/150?img=2",
-            github: "https://github.com/alexj",
-            twitter: "https://twitter.com/alexj",
-            linkedin: "https://linkedin.com/in/alexj",
+            avatar: "https://i.pravatar.cc/150?img=8",
+            github: "https://github.com/vknow360",
         },
         {
             name: "Anushka Singh",
             role: "UI Designer",
             description: "Crafting stunning visual designs and interfaces",
-            avatar: "https://i.pravatar.cc/150?img=3",
-            github: "https://github.com/sarachen",
-            twitter: "https://twitter.com/sarachen",
-            linkedin: "https://linkedin.com/in/sarachen",
+            avatar: "https://i.pravatar.cc/150?img=5",
+            github: "https://github.com/Anushka-paper",
         },
         {
             name: "Rudraa Pratap Singh",
             role: "Team Member",
             description: "",
-            avatar: "https://i.pravatar.cc/150?img=3",
-            github: "https://github.com/sarachen",
-            twitter: "https://twitter.com/sarachen",
-            linkedin: "https://linkedin.com/in/sarachen",
+            avatar: "https://i.pravatar.cc/150?img=13",
+            github: "https://github.com/rudra-design",
         },
     ];
 
@@ -84,22 +76,6 @@ const TeamSection = () => {
                                     className="text-gray-400 hover:text-gray-800 transform hover:scale-110 transition-all duration-300"
                                 >
                                     <FaGithub size={20} />
-                                </a>
-                                <a
-                                    href={person.twitter}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-gray-400 hover:text-blue-500 transform hover:scale-110 transition-all duration-300"
-                                >
-                                    <FaTwitter size={20} />
-                                </a>
-                                <a
-                                    href={person.linkedin}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-gray-400 hover:text-blue-600 transform hover:scale-110 transition-all duration-300"
-                                >
-                                    <FaLinkedin size={20} />
                                 </a>
                             </div>
                         </div>

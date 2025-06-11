@@ -31,7 +31,6 @@ const Conditions = () => {
     const current = weather.current;
     const daily = weather.daily;
 
-    // Helper function to interpret CAPE values
     function getCapeRisk(cape) {
         if (cape < 300) return "Low";
         if (cape < 1000) return "Moderate";
@@ -39,7 +38,6 @@ const Conditions = () => {
         return "Extreme";
     }
 
-    // Helper function to convert wind direction degrees to cardinal directions
     function getWindDirection(degrees) {
         const directions = [
             "N",

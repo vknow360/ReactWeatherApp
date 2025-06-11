@@ -18,7 +18,12 @@ const WeatherCard = () => {
         removeFromFavorites,
         isLocationFavorite,
     } = useContext(WeatherContext);
-    const { formatTemperature } = useSettings();
+    const {
+        formatTemperature,
+        formatWindSpeed,
+        formatPressure,
+        formatVisibility,
+    } = useSettings();
 
     function formatTime(isoString) {
         let date = new Date(isoString);
@@ -202,9 +207,17 @@ const WeatherCard = () => {
                                     </span>
                                 </div>
                                 <p className="text-base sm:text-lg text-white font-semibold mt-1 flex items-center gap-1">
-                                    {weather.current.wind_speed_10m}
+                                    {
+                                        formatWindSpeed(
+                                            weather.current.wind_speed_10m
+                                        ).split(" ")[0]
+                                    }
                                     <span className="text-sm sm:text-base text-white/70">
-                                        km/h
+                                        {
+                                            formatWindSpeed(
+                                                weather.current.wind_speed_10m
+                                            ).split(" ")[1]
+                                        }
                                     </span>
                                 </p>
                             </div>

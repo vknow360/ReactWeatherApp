@@ -243,7 +243,7 @@ const Profile = () => {
                                                         e.target.value
                                                     )
                                                 }
-                                                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                                                className="w-full px-4 py-3 rounded-lg border text-black border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                                                 placeholder="Enter your display name"
                                             />
                                         </div>
@@ -266,7 +266,7 @@ const Profile = () => {
                                                     if (photoError)
                                                         setPhotoError(false);
                                                 }}
-                                                className={`w-full px-4 py-3 rounded-lg border ${
+                                                className={`w-full text-black px-4 py-3 rounded-lg border ${
                                                     photoError
                                                         ? "border-red-300"
                                                         : "border-gray-300"

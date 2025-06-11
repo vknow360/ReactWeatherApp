@@ -21,15 +21,13 @@ const News = () => {
     const [categories] = useState(["All", "Weather", "Climate"]);
     const [activeCategory, setActiveCategory] = useState("All");
     const [lastUpdated, setLastUpdated] = useState(null);
-    const [refreshTimer, setRefreshTimer] = useState(null);
 
-    // Function to fetch news data
     const fetchNews = async () => {
         try {
             setLoading(true);
             const response = await fetchNewsData();
-            setNewsItems(response.items);
-            setFilteredNews(response.items);
+            setNewsItems(response.items || []);
+            setFilteredNews(response.items || []);
             setLastUpdated(new Date());
             setError("");
         } catch (err) {
@@ -45,26 +43,6 @@ const News = () => {
         fetchNews();
     }, []);
 
-    // Setup auto-refresh based on settings
-    useEffect(() => {
-        if (refreshTimer) {
-            clearInterval(refreshTimer);
-        }
-
-        if (settings?.refreshInterval > 0) {
-            const intervalMs = settings.refreshInterval * 60 * 1000;
-            const timer = setInterval(fetchNews, intervalMs);
-            setRefreshTimer(timer);
-        }
-
-        return () => {
-            if (refreshTimer) {
-                clearInterval(refreshTimer);
-            }
-        };
-    }, [settings?.refreshInterval]);
-
-    // Filter news based on search term and category
     useEffect(() => {
         let filtered = [...newsItems];
 
@@ -78,7 +56,7 @@ const News = () => {
         }
         if (activeCategory !== "All") {
             filtered = filtered.filter((item) =>
-                item.categories.includes(activeCategory)
+                item.categories.includes(activeCategory.toLowerCase())
             );
         }
 
@@ -265,63 +243,68 @@ const News = () => {
                                 </div>
                             ) : (
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                    {filteredNews.map((item, index) => (
-                                        <div
-                                            key={index}
-                                            onClick={() =>
-                                                window.open(item.link)
-                                            }
-                                            className="group cursor-pointer"
-                                        >
-                                            <div className="bg-gray-50 rounded-xl border border-gray-100 overflow-hidden transition-all duration-200 hover:shadow-md hover:border-blue-200">
-                                                {item.thumbnail && (
-                                                    <div className="aspect-video overflow-hidden">
-                                                        <img
-                                                            src={
-                                                                item.thumbnail ||
-                                                                item.enclosure
-                                                                    ?.link
-                                                            }
-                                                            alt={item.title}
-                                                            className="w-full h-full object-cover transition-transform group-hover:scale-105"
-                                                            loading="lazy"
-                                                            onError={(e) => {
-                                                                e.target.closest(
-                                                                    ".aspect-video"
-                                                                ).style.display =
-                                                                    "none";
-                                                            }}
-                                                        />
-                                                    </div>
-                                                )}
-                                                <div className="p-4">
-                                                    <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-blue-600">
-                                                        {item.title}
-                                                    </h3>
-                                                    <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                                                        {item.description ||
-                                                            "Read more about this weather story..."}
-                                                    </p>
-                                                    <div className="flex items-center justify-between text-sm text-gray-500">
-                                                        <div className="flex items-center gap-2">
-                                                            <FaGlobe className="text-blue-500" />
-                                                            <span>
-                                                                {item.source}
-                                                            </span>
+                                    {filteredNews.map((item, index) => {
+                                        return (
+                                            <div
+                                                key={index}
+                                                onClick={() =>
+                                                    window.open(item.link)
+                                                }
+                                                className="group cursor-pointer"
+                                            >
+                                                <div className="bg-gray-50 rounded-xl border border-gray-100 overflow-hidden transition-all duration-200 hover:shadow-md hover:border-blue-200">
+                                                    {
+                                                        <div className="aspect-video overflow-hidden">
+                                                            <img
+                                                                src={
+                                                                    item.enclosure ||
+                                                                    "https://images.indianexpress.com/2025/04/Rainfall_397d36.jpg"
+                                                                }
+                                                                alt={item.title}
+                                                                className="w-full h-full object-cover transition-transform group-hover:scale-105"
+                                                                loading="lazy"
+                                                                onError={(
+                                                                    e
+                                                                ) => {
+                                                                    e.target.closest(
+                                                                        ".aspect-video"
+                                                                    ).style.display =
+                                                                        "none";
+                                                                }}
+                                                            />
                                                         </div>
-                                                        <div className="flex items-center gap-2">
-                                                            <FaCalendarAlt className="text-blue-500" />
-                                                            <span>
-                                                                {formatDate(
-                                                                    item.pubDate
-                                                                )}
-                                                            </span>
+                                                    }
+                                                    <div className="p-4">
+                                                        <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-blue-600">
+                                                            {item.title}
+                                                        </h3>
+                                                        <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                                                            {item.description ||
+                                                                "Read more about this weather story..."}
+                                                        </p>
+                                                        <div className="flex items-center justify-between text-sm text-gray-500">
+                                                            <div className="flex items-center gap-2">
+                                                                <FaGlobe className="text-blue-500" />
+                                                                <span>
+                                                                    {
+                                                                        item.source
+                                                                    }
+                                                                </span>
+                                                            </div>
+                                                            <div className="flex items-center gap-2">
+                                                                <FaCalendarAlt className="text-blue-500" />
+                                                                <span>
+                                                                    {formatDate(
+                                                                        item.pubDate
+                                                                    )}
+                                                                </span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    ))}
+                                        );
+                                    })}
                                 </div>
                             )}
                         </div>
